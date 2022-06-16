@@ -1,0 +1,5 @@
+links:
+- id: sample-service/repository/user-service/external-api/記事取得API/2_タレントに関連する記事一覧を取得
+  type: flow
+- id: sample-service/infra/CloudSQL/user-service/follows
+  type: get

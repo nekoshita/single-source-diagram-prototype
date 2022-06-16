@@ -1,0 +1,4 @@
+refer_to: sample-service/repository/tv-show-service/batch/scrape-tv-shows 
+links:
+- id: sample-service/repository/workflows/scrape-and-load-tv-shows/calc-talent-relation-score
+  type: flow

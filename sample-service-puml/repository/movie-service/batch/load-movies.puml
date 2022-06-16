@@ -1,0 +1,42 @@
+@startuml
+hide circle
+rectangle "sample-service" as sample-service {
+    rectangle "infra" as sample-service/infra {
+        rectangle "BigQuery" as sample-service/infra/BigQuery {
+            rectangle "movie" as sample-service/infra/BigQuery/movie {
+                class "movies" as sample-service/infra/BigQuery/movie/movies {
+                    PARTITIONEDテーブル\n【スキーマ】\nid: string REQUIRED\nname: string REQUIRED\nimage_url: string REQUIRED\ndescription: string REQUIRED 
+                }
+                class "talent_relation_scores" as sample-service/infra/BigQuery/movie/talent_relation_scores {
+                    各タレントとの関連度のスコアを保持するテーブル\nPARTITIONEDテーブル\n\n【スキーマ】\nmovie/id: string REQUIRED\ntalent_id: string REQUIRED\nscore: float REQUIRED
+                }
+            }
+        }
+        rectangle "CloudSQL" as sample-service/infra/CloudSQL {
+            rectangle "movie-service" as sample-service/infra/CloudSQL/movie-service {
+                class "movies" as sample-service/infra/CloudSQL/movie-service/movies {
+                    【スキーマ】\nid: string PRIMARY_KEY\nname: string NOT_NULL\nimage_url: string NOT_NULL\ndescription: string NOT_NULL 
+                }
+                class "movie_talents" as sample-service/infra/CloudSQL/movie-service/movie_talents {
+                    【スキーマ】\nmovie/id: string PRIMARY_KEY\ntalent_id: string PRIMARY_KEY
+                }
+            }
+        }
+    }
+    rectangle "repository" as sample-service/repository {
+        rectangle "movie-service" as sample-service/repository/movie-service {
+            rectangle "batch" as sample-service/repository/movie-service/batch {
+                rectangle "load-movies" as sample-service/repository/movie-service/batch/load-movies {
+                    circle "1_関連度が閾値を超える映画を取得" as sample-service/repository/movie-service/batch/load-movies/1_関連度が閾値を超える映画を取得
+                    circle "2_映画を保存する" as sample-service/repository/movie-service/batch/load-movies/2_映画を保存する
+                }
+            }
+        }
+    }
+}
+"sample-service/repository/movie-service/batch/load-movies/1_関連度が閾値を超える映画を取得" --> "sample-service/repository/movie-service/batch/load-movies/2_映画を保存する"
+"sample-service/repository/movie-service/batch/load-movies/1_関連度が閾値を超える映画を取得" ..|> "sample-service/infra/BigQuery/movie/movies"
+"sample-service/repository/movie-service/batch/load-movies/1_関連度が閾値を超える映画を取得" ..|> "sample-service/infra/BigQuery/movie/talent_relation_scores"
+"sample-service/repository/movie-service/batch/load-movies/2_映画を保存する" --|> "sample-service/infra/CloudSQL/movie-service/movies"
+"sample-service/repository/movie-service/batch/load-movies/2_映画を保存する" --|> "sample-service/infra/CloudSQL/movie-service/movie_talents"
+@enduml

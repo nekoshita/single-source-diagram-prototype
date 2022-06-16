@@ -1,0 +1,32 @@
+@startuml
+hide circle
+rectangle "sample-service" as sample-service {
+    rectangle "infra" as sample-service/infra {
+        rectangle "CloudSQL" as sample-service/infra/CloudSQL {
+            rectangle "talent-service" as sample-service/infra/CloudSQL/talent-service {
+                class "talents" as sample-service/infra/CloudSQL/talent-service/talents {
+                    【スキーマ】\nid: string PRIMARY_KEY\nname: string NOT_NULL\nimage_url: string NOT_NULL\ndescription: string NOT_NULL 
+                }
+            }
+        }
+    }
+    rectangle "repository" as sample-service/repository {
+        rectangle "admin-service" as sample-service/repository/admin-service {
+            rectangle "external-api" as sample-service/repository/admin-service/external-api {
+                class "タレント取得API" as sample-service/repository/admin-service/external-api/タレント取得API {
+                    GET /api/v1/talents\n\n【リクエスト】\n{\n  name: string,nullable,値がある場合は部分一致したタレントのみを返す\n  cursor: string,nullable,取得した最後のtalent_id\n  limit: int,取得したいtalent数\n}\n\n【レスポンス】\n200: {\n  talents: [{\n    id: string\n    name: string\n    image_url: string\n    description: string\n  }]\n}\n401: {\n  error_code: string\n}
+                }
+            }
+        }
+        rectangle "talent-service" as sample-service/repository/talent-service {
+            rectangle "internal-api" as sample-service/repository/talent-service/internal-api {
+                class "タレント取得API" as sample-service/repository/talent-service/internal-api/タレント取得API {
+                    GET /internal/api/v1/talents\n\n【リクエスト】\n{\n  cursor: string,nullable,取得した最後のtalent_id\n  limit: int,取得したいtalent数\n}\n\n【レスポンス】\n200: {\n  talents: [{\n    id: string\n    name: string\n    image_url: string\n    description: string\n  }]\n}\n401: {\n  error_code: string\n}
+                }
+            }
+        }
+    }
+}
+"sample-service/repository/admin-service/external-api/タレント取得API" ..|> "sample-service/repository/talent-service/internal-api/タレント取得API"
+"sample-service/repository/talent-service/internal-api/タレント取得API" ..|> "sample-service/infra/CloudSQL/talent-service/talents"
+@enduml

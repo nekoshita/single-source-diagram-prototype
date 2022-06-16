@@ -1,0 +1,6 @@
+content: |-
+  admin.sample-service.comでアクセス化
+  IAPによる認証あり
+links:
+  - id: sample-service/infra/kubernetes/service/admin-external-api
+    type: flow

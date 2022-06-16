@@ -1,0 +1,8 @@
+content: |-
+  各タレントとの関連度のスコアを保持するテーブル
+  PARTITIONEDテーブル
+
+  【スキーマ】
+  article/id: string REQUIRED
+  talent_id: string REQUIRED
+  score: float REQUIRED

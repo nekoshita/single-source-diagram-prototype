@@ -1,0 +1,39 @@
+@startuml
+hide circle
+rectangle "sample-service" as sample-service {
+    rectangle "infra" as sample-service/infra {
+        rectangle "CloudSQL" as sample-service/infra/CloudSQL {
+            rectangle "user-service" as sample-service/infra/CloudSQL/user-service {
+                class "user_settings" as sample-service/infra/CloudSQL/user-service/user_settings {
+                    【スキーマ】\nuser_id: string PRIMARY_KEY\ntv_show_region: string NOT_NULL
+                }
+                class "users" as sample-service/infra/CloudSQL/user-service/users {
+                    【スキーマ】\nid: string PRIMARY_KEY\nemail_address: string NOT_NULL\npassword_hash: string NOT_NULL\ncreated_at: timestamp NOT_NULL 
+                }
+                class "follows" as sample-service/infra/CloudSQL/user-service/follows {
+                    【スキーマ】\nuser_id: string PRIMARY_KEY\ntalent_id: string PRIMARY_KEY
+                }
+            }
+        }
+    }
+    rectangle "repository" as sample-service/repository {
+        rectangle "user-service" as sample-service/repository/user-service {
+            rectangle "external-api" as sample-service/repository/user-service/external-api {
+                rectangle "解約API" as sample-service/repository/user-service/external-api/解約API {
+                    note "ユーザーと関連する情報を全て削除します\nPOST /api/v1/delete_user\n\n【リクエスト】\n{}\n\n【レスポンス】\n204: {}\n401: {\n  error_code: string\n}" as sample_service_repository_user_service_external_api_解約API_note
+                    circle "1_followsを削除" as sample-service/repository/user-service/external-api/解約API/1_followsを削除
+                    circle "2_user_settingsを削除" as sample-service/repository/user-service/external-api/解約API/2_user_settingsを削除
+                    circle "3_usersを削除" as sample-service/repository/user-service/external-api/解約API/3_usersを削除
+                    circle "4_レスポンス" as sample-service/repository/user-service/external-api/解約API/4_レスポンス
+                }
+            }
+        }
+    }
+}
+"sample-service/repository/user-service/external-api/解約API/1_followsを削除" --> "sample-service/repository/user-service/external-api/解約API/2_user_settingsを削除"
+"sample-service/repository/user-service/external-api/解約API/1_followsを削除" --|> "sample-service/infra/CloudSQL/user-service/follows"
+"sample-service/repository/user-service/external-api/解約API/2_user_settingsを削除" --> "sample-service/repository/user-service/external-api/解約API/3_usersを削除"
+"sample-service/repository/user-service/external-api/解約API/2_user_settingsを削除" --|> "sample-service/infra/CloudSQL/user-service/user_settings"
+"sample-service/repository/user-service/external-api/解約API/3_usersを削除" --> "sample-service/repository/user-service/external-api/解約API/4_レスポンス"
+"sample-service/repository/user-service/external-api/解約API/3_usersを削除" --|> "sample-service/infra/CloudSQL/user-service/users"
+@enduml

@@ -1,0 +1,5 @@
+links:
+- id: sample-service/repository/user-service/external-api/解約API/4_レスポンス
+  type: flow
+- id: sample-service/infra/CloudSQL/user-service/users
+  type: post

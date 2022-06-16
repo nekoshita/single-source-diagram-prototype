@@ -1,0 +1,7 @@
+links:
+- id: sample-service/repository/tv-show-service/batch/load-tv-shows/2_テレビ番組を保存する
+  type: flow
+- id: sample-service/infra/BigQuery/tv_show/tv_shows
+  type: get
+- id: sample-service/infra/BigQuery/tv_show/talent_relation_scores
+  type: get

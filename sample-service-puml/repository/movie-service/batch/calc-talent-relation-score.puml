@@ -1,0 +1,50 @@
+@startuml
+hide circle
+rectangle "sample-service" as sample-service {
+    rectangle "infra" as sample-service/infra {
+        rectangle "BigQuery" as sample-service/infra/BigQuery {
+            rectangle "movie" as sample-service/infra/BigQuery/movie {
+                class "movies" as sample-service/infra/BigQuery/movie/movies {
+                    PARTITIONEDテーブル\n【スキーマ】\nid: string REQUIRED\nname: string REQUIRED\nimage_url: string REQUIRED\ndescription: string REQUIRED 
+                }
+                class "talent_relation_scores" as sample-service/infra/BigQuery/movie/talent_relation_scores {
+                    各タレントとの関連度のスコアを保持するテーブル\nPARTITIONEDテーブル\n\n【スキーマ】\nmovie/id: string REQUIRED\ntalent_id: string REQUIRED\nscore: float REQUIRED
+                }
+            }
+        }
+        rectangle "CloudSQL" as sample-service/infra/CloudSQL {
+            rectangle "talent-service" as sample-service/infra/CloudSQL/talent-service {
+                class "talents" as sample-service/infra/CloudSQL/talent-service/talents {
+                    【スキーマ】\nid: string PRIMARY_KEY\nname: string NOT_NULL\nimage_url: string NOT_NULL\ndescription: string NOT_NULL 
+                }
+            }
+        }
+    }
+    rectangle "repository" as sample-service/repository {
+        rectangle "movie-service" as sample-service/repository/movie-service {
+            rectangle "batch" as sample-service/repository/movie-service/batch {
+                rectangle "calc-talent-relation-score" as sample-service/repository/movie-service/batch/calc-talent-relation-score {
+                    circle "1_タレントを取得する" as sample-service/repository/movie-service/batch/calc-talent-relation-score/1_タレントを取得する
+                    circle "2_計算対象の記事を取得する" as sample-service/repository/movie-service/batch/calc-talent-relation-score/2_計算対象の記事を取得する
+                    circle "3_関連度のスコアを計算する" as sample-service/repository/movie-service/batch/calc-talent-relation-score/3_関連度のスコアを計算する
+                    circle "4_関連度のスコアを保存する" as sample-service/repository/movie-service/batch/calc-talent-relation-score/4_関連度のスコアを保存する
+                }
+            }
+        }
+        rectangle "talent-service" as sample-service/repository/talent-service {
+            rectangle "internal-api" as sample-service/repository/talent-service/internal-api {
+                class "タレント取得API" as sample-service/repository/talent-service/internal-api/タレント取得API {
+                    GET /internal/api/v1/talents\n\n【リクエスト】\n{\n  cursor: string,nullable,取得した最後のtalent_id\n  limit: int,取得したいtalent数\n}\n\n【レスポンス】\n200: {\n  talents: [{\n    id: string\n    name: string\n    image_url: string\n    description: string\n  }]\n}\n401: {\n  error_code: string\n}
+                }
+            }
+        }
+    }
+}
+"sample-service/repository/movie-service/batch/calc-talent-relation-score/1_タレントを取得する" --> "sample-service/repository/movie-service/batch/calc-talent-relation-score/2_計算対象の記事を取得する"
+"sample-service/repository/movie-service/batch/calc-talent-relation-score/1_タレントを取得する" ..|> "sample-service/repository/talent-service/internal-api/タレント取得API"
+"sample-service/repository/movie-service/batch/calc-talent-relation-score/2_計算対象の記事を取得する" --> "sample-service/repository/movie-service/batch/calc-talent-relation-score/3_関連度のスコアを計算する"
+"sample-service/repository/movie-service/batch/calc-talent-relation-score/2_計算対象の記事を取得する" ..|> "sample-service/infra/BigQuery/movie/movies"
+"sample-service/repository/movie-service/batch/calc-talent-relation-score/3_関連度のスコアを計算する" --> "sample-service/repository/movie-service/batch/calc-talent-relation-score/4_関連度のスコアを保存する"
+"sample-service/repository/movie-service/batch/calc-talent-relation-score/4_関連度のスコアを保存する" --|> "sample-service/infra/BigQuery/movie/talent_relation_scores"
+"sample-service/repository/talent-service/internal-api/タレント取得API" ..|> "sample-service/infra/CloudSQL/talent-service/talents"
+@enduml

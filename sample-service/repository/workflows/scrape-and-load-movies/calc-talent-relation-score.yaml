@@ -1,0 +1,4 @@
+refer_to: sample-service/repository/movie-service/batch/calc-talent-relation-score 
+links:
+- id: sample-service/repository/workflows/scrape-and-load-movies/load-movies
+  type: flow

@@ -1,0 +1,21 @@
+content: |-
+  POST /api/v1/login
+  ログインに成功すると、認証情報を保持するクッキーを返します
+
+  【リクエスト】
+  {
+    email: string
+    password: string
+  }
+
+  【レスポンス】
+  204: {}
+  400: {
+    error_code: string
+  }
+  401: {
+    error_code: string
+  }
+links:
+- id: sample-service/infra/CloudSQL/user-service/users
+  type: get

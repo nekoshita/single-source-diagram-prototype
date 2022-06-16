@@ -1,0 +1,9 @@
+content: |-
+  【スキーマ】
+  id: string PRIMARY_KEY
+  name: string NOT_NULL
+  image_url: string NOT_NULL
+  description: string NOT_NULL 
+  start_at: timestamp NOT_NULL 
+  end_at: timestamp NOT_NULL 
+  tv_region: string NOT_NULL 

@@ -1,0 +1,4 @@
+refer_to: sample-service/repository/tv-show-service/batch/purge-past-tv-shows
+links:
+- id: sample-service/repository/workflows/purge-past-data/end
+  type: flow

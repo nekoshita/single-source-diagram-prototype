@@ -1,0 +1,12 @@
+content: |-
+  ユーザーと関連する情報を全て削除します
+  POST /api/v1/delete_user
+
+  【リクエスト】
+  {}
+  
+  【レスポンス】
+  204: {}
+  401: {
+    error_code: string
+  }

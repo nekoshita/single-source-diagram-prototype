@@ -1,0 +1,31 @@
+content: |-
+  GET /internal/api/v1/tv_shows
+  指定したタレントに関連するテレビ番組一覧を返します
+
+  【リクエスト】
+  {
+    talent_ids: []int
+    cursor: string,nullable,取得した最後のtalent_id
+    limit: int,取得したいtalent数
+    tv_region: string
+  }
+
+  【レスポンス】
+  200: {
+    tv_shows: [{
+      id: string
+      name: string
+      image_url: string
+      description: string
+      start_at: timestamp
+      end_at: timestamp
+    }]
+  }
+  401: {
+    error_code: string
+  }
+links:
+- id: sample-service/infra/CloudSQL/tv-show-service/tv_shows
+  type: get
+- id: sample-service/infra/CloudSQL/tv-show-service/tv_show_talents
+  type: get

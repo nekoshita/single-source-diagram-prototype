@@ -1,0 +1,5 @@
+content: |-
+  sample-service.comでアクセス化
+links:
+  - id: sample-service/infra/kubernetes/service/user-external-api
+    type: flow

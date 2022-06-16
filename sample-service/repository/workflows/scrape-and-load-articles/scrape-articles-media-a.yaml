@@ -1,0 +1,4 @@
+refer_to: sample-service/repository/article-service/batch/scrape-articles 
+links:
+- id: sample-service/repository/workflows/scrape-and-load-articles/calc-talent-relation-score
+  type: flow

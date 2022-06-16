@@ -1,0 +1,5 @@
+links:
+- id: sample-service/repository/tv-show-service/batch/calc-talent-relation-score/3_関連度のスコアを計算する
+  type: flow
+- id: sample-service/infra/BigQuery/tv_show/tv_shows
+  type: get

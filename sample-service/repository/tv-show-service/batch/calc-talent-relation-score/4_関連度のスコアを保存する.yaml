@@ -1,0 +1,3 @@
+links:
+- id: sample-service/infra/BigQuery/tv_show/talent_relation_scores
+  type: post

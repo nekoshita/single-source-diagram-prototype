@@ -1,0 +1,16 @@
+content: |-
+  POST /api/v1/setting
+
+  【リクエスト】
+  {
+    tv_region: string
+  }
+  
+  【レスポンス】
+  204: {}
+  401: {
+    error_code: string
+  }
+links:
+- id: sample-service/infra/CloudSQL/user-service/user_settings
+  type: post

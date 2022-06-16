@@ -1,0 +1,3 @@
+links:
+- id: sample-service/infra/kubernetes/ingress/admin
+  type: flow

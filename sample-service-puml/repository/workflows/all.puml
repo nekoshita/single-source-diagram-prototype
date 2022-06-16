@@ -1,0 +1,65 @@
+@startuml
+hide circle
+rectangle "sample-service" as sample-service {
+    rectangle "repository" as sample-service/repository {
+        rectangle "workflows" as sample-service/repository/workflows {
+            rectangle "purge-past-data" as sample-service/repository/workflows/purge-past-data {
+                note "schedule: 0 0,12 * * *\n過去の記事とテレビ番組を削除します\n（映画は削除しません）" as sample_service_repository_workflows_purge_past_data_note
+                circle "end" as sample-service/repository/workflows/purge-past-data/end
+                circle "purge-past-articles" as sample-service/repository/workflows/purge-past-data/purge-past-articles
+                circle "purge-past-tv-shows" as sample-service/repository/workflows/purge-past-data/purge-past-tv-shows
+                circle "start" as sample-service/repository/workflows/purge-past-data/start
+            }
+            rectangle "scrape-and-load-articles" as sample-service/repository/workflows/scrape-and-load-articles {
+                note "schedule: 0,30 * * * *" as sample_service_repository_workflows_scrape_and_load_articles_note
+                circle "end" as sample-service/repository/workflows/scrape-and-load-articles/end
+                circle "load-articles" as sample-service/repository/workflows/scrape-and-load-articles/load-articles
+                circle "scrape-articles-media-a" as sample-service/repository/workflows/scrape-and-load-articles/scrape-articles-media-a
+                circle "scrape-articles-media-b" as sample-service/repository/workflows/scrape-and-load-articles/scrape-articles-media-b
+                circle "start" as sample-service/repository/workflows/scrape-and-load-articles/start
+                circle "calc-talent-relation-score" as sample-service/repository/workflows/scrape-and-load-articles/calc-talent-relation-score
+            }
+            rectangle "scrape-and-load-movies" as sample-service/repository/workflows/scrape-and-load-movies {
+                note "schedule: 0,30 * * * *" as sample_service_repository_workflows_scrape_and_load_movies_note
+                circle "scrape-movies-media-b" as sample-service/repository/workflows/scrape-and-load-movies/scrape-movies-media-b
+                circle "start" as sample-service/repository/workflows/scrape-and-load-movies/start
+                circle "calc-talent-relation-score" as sample-service/repository/workflows/scrape-and-load-movies/calc-talent-relation-score
+                circle "end" as sample-service/repository/workflows/scrape-and-load-movies/end
+                circle "load-movies" as sample-service/repository/workflows/scrape-and-load-movies/load-movies
+                circle "scrape-movies-media-a" as sample-service/repository/workflows/scrape-and-load-movies/scrape-movies-media-a
+            }
+            rectangle "scrape-and-load-tv-shows" as sample-service/repository/workflows/scrape-and-load-tv-shows {
+                note "schedule: 0,30 * * * *" as sample_service_repository_workflows_scrape_and_load_tv_shows_note
+                circle "load-tv-shows" as sample-service/repository/workflows/scrape-and-load-tv-shows/load-tv-shows
+                circle "scrape-tv-shows-media-a" as sample-service/repository/workflows/scrape-and-load-tv-shows/scrape-tv-shows-media-a
+                circle "scrape-tv-shows-media-b" as sample-service/repository/workflows/scrape-and-load-tv-shows/scrape-tv-shows-media-b
+                circle "start" as sample-service/repository/workflows/scrape-and-load-tv-shows/start
+                circle "calc-talent-relation-score" as sample-service/repository/workflows/scrape-and-load-tv-shows/calc-talent-relation-score
+                circle "end" as sample-service/repository/workflows/scrape-and-load-tv-shows/end
+            }
+        }
+    }
+}
+"sample-service/repository/workflows/purge-past-data/purge-past-articles" --> "sample-service/repository/workflows/purge-past-data/end"
+"sample-service/repository/workflows/purge-past-data/purge-past-tv-shows" --> "sample-service/repository/workflows/purge-past-data/end"
+"sample-service/repository/workflows/purge-past-data/start" --> "sample-service/repository/workflows/purge-past-data/purge-past-articles"
+"sample-service/repository/workflows/purge-past-data/start" --> "sample-service/repository/workflows/purge-past-data/purge-past-tv-shows"
+"sample-service/repository/workflows/scrape-and-load-articles/load-articles" --> "sample-service/repository/workflows/scrape-and-load-articles/end"
+"sample-service/repository/workflows/scrape-and-load-articles/scrape-articles-media-a" --> "sample-service/repository/workflows/scrape-and-load-articles/calc-talent-relation-score"
+"sample-service/repository/workflows/scrape-and-load-articles/scrape-articles-media-b" --> "sample-service/repository/workflows/scrape-and-load-articles/calc-talent-relation-score"
+"sample-service/repository/workflows/scrape-and-load-articles/start" --> "sample-service/repository/workflows/scrape-and-load-articles/scrape-articles-media-a"
+"sample-service/repository/workflows/scrape-and-load-articles/start" --> "sample-service/repository/workflows/scrape-and-load-articles/scrape-articles-media-b"
+"sample-service/repository/workflows/scrape-and-load-articles/calc-talent-relation-score" --> "sample-service/repository/workflows/scrape-and-load-articles/load-articles"
+"sample-service/repository/workflows/scrape-and-load-movies/scrape-movies-media-b" --> "sample-service/repository/workflows/scrape-and-load-movies/calc-talent-relation-score"
+"sample-service/repository/workflows/scrape-and-load-movies/start" --> "sample-service/repository/workflows/scrape-and-load-movies/scrape-movies-media-a"
+"sample-service/repository/workflows/scrape-and-load-movies/start" --> "sample-service/repository/workflows/scrape-and-load-movies/scrape-movies-media-b"
+"sample-service/repository/workflows/scrape-and-load-movies/calc-talent-relation-score" --> "sample-service/repository/workflows/scrape-and-load-movies/load-movies"
+"sample-service/repository/workflows/scrape-and-load-movies/load-movies" --> "sample-service/repository/workflows/scrape-and-load-movies/end"
+"sample-service/repository/workflows/scrape-and-load-movies/scrape-movies-media-a" --> "sample-service/repository/workflows/scrape-and-load-movies/calc-talent-relation-score"
+"sample-service/repository/workflows/scrape-and-load-tv-shows/load-tv-shows" --> "sample-service/repository/workflows/scrape-and-load-tv-shows/end"
+"sample-service/repository/workflows/scrape-and-load-tv-shows/scrape-tv-shows-media-a" --> "sample-service/repository/workflows/scrape-and-load-tv-shows/calc-talent-relation-score"
+"sample-service/repository/workflows/scrape-and-load-tv-shows/scrape-tv-shows-media-b" --> "sample-service/repository/workflows/scrape-and-load-tv-shows/calc-talent-relation-score"
+"sample-service/repository/workflows/scrape-and-load-tv-shows/start" --> "sample-service/repository/workflows/scrape-and-load-tv-shows/scrape-tv-shows-media-a"
+"sample-service/repository/workflows/scrape-and-load-tv-shows/start" --> "sample-service/repository/workflows/scrape-and-load-tv-shows/scrape-tv-shows-media-b"
+"sample-service/repository/workflows/scrape-and-load-tv-shows/calc-talent-relation-score" --> "sample-service/repository/workflows/scrape-and-load-tv-shows/load-tv-shows"
+@enduml

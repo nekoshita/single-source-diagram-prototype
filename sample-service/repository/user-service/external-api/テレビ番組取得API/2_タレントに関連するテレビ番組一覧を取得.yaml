@@ -1,0 +1,5 @@
+links:
+- id: sample-service/repository/user-service/external-api/テレビ番組取得API/3_レスポンス
+  type: flow
+- id: sample-service/repository/tv-show-service/internal-api/テレビ番組取得API
+  type: get

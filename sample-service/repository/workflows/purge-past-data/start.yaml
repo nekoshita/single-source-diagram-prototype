@@ -1,0 +1,5 @@
+links:
+- id: sample-service/repository/workflows/purge-past-data/purge-past-articles
+  type: flow
+- id: sample-service/repository/workflows/purge-past-data/purge-past-tv-shows
+  type: flow

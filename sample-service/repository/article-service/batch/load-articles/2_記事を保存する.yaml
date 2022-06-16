@@ -1,0 +1,5 @@
+links:
+- id: sample-service/infra/CloudSQL/article-service/articles
+  type: post
+- id: sample-service/infra/CloudSQL/article-service/article_talents
+  type: post

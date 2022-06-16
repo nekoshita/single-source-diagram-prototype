@@ -1,0 +1,3 @@
+links:
+- id: sample-service/user/web_browser
+  type: flow

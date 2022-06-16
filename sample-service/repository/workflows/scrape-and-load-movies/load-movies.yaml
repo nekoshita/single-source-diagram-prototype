@@ -1,0 +1,4 @@
+refer_to: sample-service/repository/movie-service/batch/load-movies 
+links:
+- id: sample-service/repository/workflows/scrape-and-load-movies/end
+  type: flow

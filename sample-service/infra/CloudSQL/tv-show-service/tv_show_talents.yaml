@@ -1,0 +1,4 @@
+content: |-
+  【スキーマ】
+  tv_show_id: string PRIMARY_KEY
+  talent_id: string PRIMARY_KEY

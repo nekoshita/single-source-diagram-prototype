@@ -1,0 +1,32 @@
+@startuml
+hide circle
+rectangle "sample-service" as sample-service {
+    rectangle "infra" as sample-service/infra {
+        rectangle "BigQuery" as sample-service/infra/BigQuery {
+            rectangle "movie" as sample-service/infra/BigQuery/movie {
+                class "movies" as sample-service/infra/BigQuery/movie/movies {
+                    PARTITIONEDテーブル\n【スキーマ】\nid: string REQUIRED\nname: string REQUIRED\nimage_url: string REQUIRED\ndescription: string REQUIRED 
+                }
+            }
+        }
+    }
+    rectangle "internet" as sample-service/internet {
+        circle "movie_media_A" as sample-service/internet/movie_media_A
+        circle "movie_media_B" as sample-service/internet/movie_media_B
+    }
+    rectangle "repository" as sample-service/repository {
+        rectangle "movie-service" as sample-service/repository/movie-service {
+            rectangle "batch" as sample-service/repository/movie-service/batch {
+                rectangle "scrape-movies" as sample-service/repository/movie-service/batch/scrape-movies {
+                    circle "1_各メディアをスクレイプする" as sample-service/repository/movie-service/batch/scrape-movies/1_各メディアをスクレイプする
+                    circle "2_BQに保存する" as sample-service/repository/movie-service/batch/scrape-movies/2_BQに保存する
+                }
+            }
+        }
+    }
+}
+"sample-service/repository/movie-service/batch/scrape-movies/1_各メディアをスクレイプする" --> "sample-service/repository/movie-service/batch/scrape-movies/2_BQに保存する"
+"sample-service/repository/movie-service/batch/scrape-movies/1_各メディアをスクレイプする" ..|> "sample-service/internet/movie_media_A"
+"sample-service/repository/movie-service/batch/scrape-movies/1_各メディアをスクレイプする" ..|> "sample-service/internet/movie_media_B"
+"sample-service/repository/movie-service/batch/scrape-movies/2_BQに保存する" --|> "sample-service/infra/BigQuery/movie/movies"
+@enduml

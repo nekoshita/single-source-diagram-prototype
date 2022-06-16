@@ -1,0 +1,16 @@
+content: |-
+  POST /api/v1/unfollow
+  
+  【リクエスト】
+  {
+    talent_id: string
+  }
+  
+  【レスポンス】
+  204: {}
+  401: {
+    error_code: string
+  }
+links:
+- id: sample-service/infra/CloudSQL/user-service/follows
+  type: post

@@ -1,0 +1,19 @@
+content: |-
+  POST /internal/api/v1/talents
+
+  【リクエスト】
+  {
+    id: string
+    name: string
+    image_url: string
+    description: string
+  }
+
+  【レスポンス】
+  204: {}
+  401: {
+    error_code: string
+  }
+links:
+- id: sample-service/infra/CloudSQL/talent-service/talents
+  type: post

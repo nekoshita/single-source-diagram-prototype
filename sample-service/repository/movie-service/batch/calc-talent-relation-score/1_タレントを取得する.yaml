@@ -1,0 +1,5 @@
+links:
+- id: sample-service/repository/movie-service/batch/calc-talent-relation-score/2_計算対象の記事を取得する
+  type: flow
+- id: sample-service/repository/talent-service/internal-api/タレント取得API
+  type: get

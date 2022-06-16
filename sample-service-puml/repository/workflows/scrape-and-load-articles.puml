@@ -1,0 +1,98 @@
+@startuml
+hide circle
+rectangle "sample-service" as sample-service {
+    rectangle "infra" as sample-service/infra {
+        rectangle "BigQuery" as sample-service/infra/BigQuery {
+            rectangle "article" as sample-service/infra/BigQuery/article {
+                class "articles" as sample-service/infra/BigQuery/article/articles {
+                    PARTITIONEDテーブル\n【スキーマ】\nid: string REQUIRED\nname: string REQUIRED\nimage_url: string REQUIRED\ndescription: string REQUIRED 
+                }
+                class "talent_relation_scores" as sample-service/infra/BigQuery/article/talent_relation_scores {
+                    各タレントとの関連度のスコアを保持するテーブル\nPARTITIONEDテーブル\n\n【スキーマ】\narticle/id: string REQUIRED\ntalent_id: string REQUIRED\nscore: float REQUIRED
+                }
+            }
+        }
+        rectangle "CloudSQL" as sample-service/infra/CloudSQL {
+            rectangle "article-service" as sample-service/infra/CloudSQL/article-service {
+                class "articles" as sample-service/infra/CloudSQL/article-service/articles {
+                    【スキーマ】\nid: string PRIMARY_KEY\nname: string NOT_NULL\nimage_url: string NOT_NULL\ndescription: string NOT_NULL 
+                }
+                class "article_talents" as sample-service/infra/CloudSQL/article-service/article_talents {
+                    【スキーマ】\narticle/id: string PRIMARY_KEY\ntalent_id: string PRIMARY_KEY
+                }
+            }
+        }
+    }
+    rectangle "internet" as sample-service/internet {
+        circle "article_media_A" as sample-service/internet/article_media_A
+        circle "article_media_B" as sample-service/internet/article_media_B
+    }
+    rectangle "repository" as sample-service/repository {
+        rectangle "workflows" as sample-service/repository/workflows {
+            rectangle "scrape-and-load-articles" as sample-service/repository/workflows/scrape-and-load-articles {
+                note "schedule: 0,30 * * * *" as sample_service_repository_workflows_scrape_and_load_articles_note
+                circle "end" as sample-service/repository/workflows/scrape-and-load-articles/end
+                rectangle "load-articles" as sample-service/repository/workflows/scrape-and-load-articles/load-articles {
+                    rectangle "ref(sample-service/repository/article-service/batch/load-articles)" as sample-service/repository/workflows/scrape-and-load-articles/load-articles/sample-service/repository/article-service/batch/load-articles {
+                        circle "1_関連度が閾値を超える記事を取得" as sample-service/repository/workflows/scrape-and-load-articles/load-articles/sample-service/repository/article-service/batch/load-articles/1_関連度が閾値を超える記事を取得
+                        circle "2_記事を保存する" as sample-service/repository/workflows/scrape-and-load-articles/load-articles/sample-service/repository/article-service/batch/load-articles/2_記事を保存する
+                    }
+                }
+                rectangle "scrape-articles-media-a" as sample-service/repository/workflows/scrape-and-load-articles/scrape-articles-media-a {
+                    rectangle "ref(sample-service/repository/article-service/batch/scrape-articles)" as sample-service/repository/workflows/scrape-and-load-articles/scrape-articles-media-a/sample-service/repository/article-service/batch/scrape-articles {
+                        circle "1_各メディアをスクレイプする" as sample-service/repository/workflows/scrape-and-load-articles/scrape-articles-media-a/sample-service/repository/article-service/batch/scrape-articles/1_各メディアをスクレイプする
+                        circle "2_BQに保存する" as sample-service/repository/workflows/scrape-and-load-articles/scrape-articles-media-a/sample-service/repository/article-service/batch/scrape-articles/2_BQに保存する
+                    }
+                }
+                rectangle "scrape-articles-media-b" as sample-service/repository/workflows/scrape-and-load-articles/scrape-articles-media-b {
+                    rectangle "ref(sample-service/repository/article-service/batch/scrape-articles)" as sample-service/repository/workflows/scrape-and-load-articles/scrape-articles-media-b/sample-service/repository/article-service/batch/scrape-articles {
+                        circle "1_各メディアをスクレイプする" as sample-service/repository/workflows/scrape-and-load-articles/scrape-articles-media-b/sample-service/repository/article-service/batch/scrape-articles/1_各メディアをスクレイプする
+                        circle "2_BQに保存する" as sample-service/repository/workflows/scrape-and-load-articles/scrape-articles-media-b/sample-service/repository/article-service/batch/scrape-articles/2_BQに保存する
+                    }
+                }
+                circle "start" as sample-service/repository/workflows/scrape-and-load-articles/start
+                rectangle "calc-talent-relation-score" as sample-service/repository/workflows/scrape-and-load-articles/calc-talent-relation-score {
+                    rectangle "ref(sample-service/repository/article-service/batch/calc-talent-relation-score)" as sample-service/repository/workflows/scrape-and-load-articles/calc-talent-relation-score/sample-service/repository/article-service/batch/calc-talent-relation-score {
+                        circle "1_タレントを取得する" as sample-service/repository/workflows/scrape-and-load-articles/calc-talent-relation-score/sample-service/repository/article-service/batch/calc-talent-relation-score/1_タレントを取得する
+                        circle "2_計算対象の記事を取得する" as sample-service/repository/workflows/scrape-and-load-articles/calc-talent-relation-score/sample-service/repository/article-service/batch/calc-talent-relation-score/2_計算対象の記事を取得する
+                        circle "3_関連度のスコアを計算する" as sample-service/repository/workflows/scrape-and-load-articles/calc-talent-relation-score/sample-service/repository/article-service/batch/calc-talent-relation-score/3_関連度のスコアを計算する
+                        circle "4_関連度のスコアを保存する" as sample-service/repository/workflows/scrape-and-load-articles/calc-talent-relation-score/sample-service/repository/article-service/batch/calc-talent-relation-score/4_関連度のスコアを保存する
+                    }
+                }
+            }
+        }
+        rectangle "talent-service" as sample-service/repository/talent-service {
+            rectangle "internal-api" as sample-service/repository/talent-service/internal-api {
+                class "タレント取得API" as sample-service/repository/talent-service/internal-api/タレント取得API {
+                    GET /internal/api/v1/talents\n\n【リクエスト】\n{\n  cursor: string,nullable,取得した最後のtalent_id\n  limit: int,取得したいtalent数\n}\n\n【レスポンス】\n200: {\n  talents: [{\n    id: string\n    name: string\n    image_url: string\n    description: string\n  }]\n}\n401: {\n  error_code: string\n}
+                }
+            }
+        }
+    }
+}
+"sample-service/repository/workflows/scrape-and-load-articles/load-articles/sample-service/repository/article-service/batch/load-articles/1_関連度が閾値を超える記事を取得" --> "sample-service/repository/workflows/scrape-and-load-articles/load-articles/sample-service/repository/article-service/batch/load-articles/2_記事を保存する"
+"sample-service/repository/workflows/scrape-and-load-articles/load-articles/sample-service/repository/article-service/batch/load-articles/1_関連度が閾値を超える記事を取得" ..|> "sample-service/infra/BigQuery/article/articles"
+"sample-service/repository/workflows/scrape-and-load-articles/load-articles/sample-service/repository/article-service/batch/load-articles/1_関連度が閾値を超える記事を取得" ..|> "sample-service/infra/BigQuery/article/talent_relation_scores"
+"sample-service/repository/workflows/scrape-and-load-articles/load-articles/sample-service/repository/article-service/batch/load-articles/2_記事を保存する" --|> "sample-service/infra/CloudSQL/article-service/articles"
+"sample-service/repository/workflows/scrape-and-load-articles/load-articles/sample-service/repository/article-service/batch/load-articles/2_記事を保存する" --|> "sample-service/infra/CloudSQL/article-service/article_talents"
+"sample-service/repository/workflows/scrape-and-load-articles/load-articles" --> "sample-service/repository/workflows/scrape-and-load-articles/end"
+"sample-service/repository/workflows/scrape-and-load-articles/scrape-articles-media-a/sample-service/repository/article-service/batch/scrape-articles/1_各メディアをスクレイプする" --> "sample-service/repository/workflows/scrape-and-load-articles/scrape-articles-media-a/sample-service/repository/article-service/batch/scrape-articles/2_BQに保存する"
+"sample-service/repository/workflows/scrape-and-load-articles/scrape-articles-media-a/sample-service/repository/article-service/batch/scrape-articles/1_各メディアをスクレイプする" ..|> "sample-service/internet/article_media_A"
+"sample-service/repository/workflows/scrape-and-load-articles/scrape-articles-media-a/sample-service/repository/article-service/batch/scrape-articles/1_各メディアをスクレイプする" ..|> "sample-service/internet/article_media_B"
+"sample-service/repository/workflows/scrape-and-load-articles/scrape-articles-media-a/sample-service/repository/article-service/batch/scrape-articles/2_BQに保存する" --|> "sample-service/infra/BigQuery/article/articles"
+"sample-service/repository/workflows/scrape-and-load-articles/scrape-articles-media-a" --> "sample-service/repository/workflows/scrape-and-load-articles/calc-talent-relation-score"
+"sample-service/repository/workflows/scrape-and-load-articles/scrape-articles-media-b/sample-service/repository/article-service/batch/scrape-articles/1_各メディアをスクレイプする" --> "sample-service/repository/workflows/scrape-and-load-articles/scrape-articles-media-b/sample-service/repository/article-service/batch/scrape-articles/2_BQに保存する"
+"sample-service/repository/workflows/scrape-and-load-articles/scrape-articles-media-b/sample-service/repository/article-service/batch/scrape-articles/1_各メディアをスクレイプする" ..|> "sample-service/internet/article_media_A"
+"sample-service/repository/workflows/scrape-and-load-articles/scrape-articles-media-b/sample-service/repository/article-service/batch/scrape-articles/1_各メディアをスクレイプする" ..|> "sample-service/internet/article_media_B"
+"sample-service/repository/workflows/scrape-and-load-articles/scrape-articles-media-b/sample-service/repository/article-service/batch/scrape-articles/2_BQに保存する" --|> "sample-service/infra/BigQuery/article/articles"
+"sample-service/repository/workflows/scrape-and-load-articles/scrape-articles-media-b" --> "sample-service/repository/workflows/scrape-and-load-articles/calc-talent-relation-score"
+"sample-service/repository/workflows/scrape-and-load-articles/start" --> "sample-service/repository/workflows/scrape-and-load-articles/scrape-articles-media-a"
+"sample-service/repository/workflows/scrape-and-load-articles/start" --> "sample-service/repository/workflows/scrape-and-load-articles/scrape-articles-media-b"
+"sample-service/repository/workflows/scrape-and-load-articles/calc-talent-relation-score/sample-service/repository/article-service/batch/calc-talent-relation-score/1_タレントを取得する" --> "sample-service/repository/workflows/scrape-and-load-articles/calc-talent-relation-score/sample-service/repository/article-service/batch/calc-talent-relation-score/2_計算対象の記事を取得する"
+"sample-service/repository/workflows/scrape-and-load-articles/calc-talent-relation-score/sample-service/repository/article-service/batch/calc-talent-relation-score/1_タレントを取得する" ..|> "sample-service/repository/talent-service/internal-api/タレント取得API"
+"sample-service/repository/workflows/scrape-and-load-articles/calc-talent-relation-score/sample-service/repository/article-service/batch/calc-talent-relation-score/2_計算対象の記事を取得する" --> "sample-service/repository/workflows/scrape-and-load-articles/calc-talent-relation-score/sample-service/repository/article-service/batch/calc-talent-relation-score/3_関連度のスコアを計算する"
+"sample-service/repository/workflows/scrape-and-load-articles/calc-talent-relation-score/sample-service/repository/article-service/batch/calc-talent-relation-score/2_計算対象の記事を取得する" ..|> "sample-service/infra/BigQuery/article/articles"
+"sample-service/repository/workflows/scrape-and-load-articles/calc-talent-relation-score/sample-service/repository/article-service/batch/calc-talent-relation-score/3_関連度のスコアを計算する" --> "sample-service/repository/workflows/scrape-and-load-articles/calc-talent-relation-score/sample-service/repository/article-service/batch/calc-talent-relation-score/4_関連度のスコアを保存する"
+"sample-service/repository/workflows/scrape-and-load-articles/calc-talent-relation-score/sample-service/repository/article-service/batch/calc-talent-relation-score/4_関連度のスコアを保存する" --|> "sample-service/infra/BigQuery/article/talent_relation_scores"
+"sample-service/repository/workflows/scrape-and-load-articles/calc-talent-relation-score" --> "sample-service/repository/workflows/scrape-and-load-articles/load-articles"
+@enduml

@@ -1,0 +1,4 @@
+content: |-
+  【スキーマ】
+  movie/id: string PRIMARY_KEY
+  talent_id: string PRIMARY_KEY

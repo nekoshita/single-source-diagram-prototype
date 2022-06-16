@@ -1,0 +1,5 @@
+links:
+- id: sample-service/repository/user-service/external-api/テレビ番組取得API/2_タレントに関連するテレビ番組一覧を取得
+  type: flow
+- id: sample-service/infra/CloudSQL/user-service/follows
+  type: get

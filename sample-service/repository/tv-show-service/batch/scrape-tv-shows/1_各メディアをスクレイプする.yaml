@@ -1,0 +1,7 @@
+links:
+- id: sample-service/repository/tv-show-service/batch/scrape-tv-shows/2_BQに保存する
+  type: flow
+- id: sample-service/internet/tv_show_media_A
+  type: get
+- id: sample-service/internet/tv_show_media_B
+  type: get

@@ -1,0 +1,769 @@
+diagram_root_dir: "sample-service"
+output_root_dir: "sample-service-puml"
+diagrams_to_render:
+
+- output_path: "all.puml"
+  conditions:
+  - id: "sample-service"
+    enable: true
+    child_depth: 100
+    link_to_depth: 0
+    link_from_depth: 0
+
+# ==================================================================
+# ==== repository/admin-service/external-api
+# ==================================================================
+- output_path: "repository/admin-service/external-api/タレント取得API.puml"
+  conditions:
+  - id: "sample-service/repository/admin-service/external-api/タレント取得API"
+    enable: true
+    child_depth: 100
+    link_to_depth: 100
+    link_from_depth: 0
+  - id: "sample-service/infra/kubernetes"
+    enable: false
+    child_depth: 100
+    link_to_depth: 0
+    link_from_depth: 0
+  - id: "sample-service/repository/workflows"
+    enable: false
+    child_depth: 100
+    link_to_depth: 0
+    link_from_depth: 0
+
+- output_path: "repository/admin-service/external-api/タレント作成API.puml"
+  conditions:
+  - id: "sample-service/repository/admin-service/external-api/タレント作成API"
+    enable: true
+    child_depth: 100
+    link_to_depth: 100
+    link_from_depth: 0
+  - id: "sample-service/infra/kubernetes"
+    enable: false
+    child_depth: 100
+    link_to_depth: 0
+    link_from_depth: 0
+  - id: "sample-service/repository/workflows"
+    enable: false
+    child_depth: 100
+    link_to_depth: 0
+    link_from_depth: 0
+
+# ==================================================================
+# ==== repository/user-service/external-api
+# ==================================================================
+- output_path: "repository/user-service/external-api/タレント取得API.puml"
+  conditions:
+  - id: "sample-service/repository/user-service/external-api/タレント取得API"
+    enable: true
+    child_depth: 100
+    link_to_depth: 100
+    link_from_depth: 0
+  - id: "sample-service/infra/kubernetes"
+    enable: false
+    child_depth: 100
+    link_to_depth: 0
+    link_from_depth: 0
+  - id: "sample-service/repository/workflows"
+    enable: false
+    child_depth: 100
+    link_to_depth: 0
+    link_from_depth: 0
+
+- output_path: "repository/user-service/external-api/テレビ番組取得API.puml"
+  conditions:
+  - id: "sample-service/repository/user-service/external-api/テレビ番組取得API"
+    enable: true
+    child_depth: 100
+    link_to_depth: 100
+    link_from_depth: 0
+  - id: "sample-service/infra/kubernetes"
+    enable: false
+    child_depth: 100
+    link_to_depth: 0
+    link_from_depth: 0
+  - id: "sample-service/repository/workflows"
+    enable: false
+    child_depth: 100
+    link_to_depth: 0
+    link_from_depth: 0
+
+- output_path: "repository/user-service/external-api/フォローAPI.puml"
+  conditions:
+  - id: "sample-service/repository/user-service/external-api/フォローAPI"
+    enable: true
+    child_depth: 100
+    link_to_depth: 100
+    link_from_depth: 0
+  - id: "sample-service/infra/kubernetes"
+    enable: false
+    child_depth: 100
+    link_to_depth: 0
+    link_from_depth: 0
+  - id: "sample-service/repository/workflows"
+    enable: false
+    child_depth: 100
+    link_to_depth: 0
+    link_from_depth: 0
+
+- output_path: "repository/user-service/external-api/フォロー解除API.puml"
+  conditions:
+  - id: "sample-service/repository/user-service/external-api/フォロー解除API"
+    enable: true
+    child_depth: 100
+    link_to_depth: 100
+    link_from_depth: 0
+  - id: "sample-service/infra/kubernetes"
+    enable: false
+    child_depth: 100
+    link_to_depth: 0
+    link_from_depth: 0
+  - id: "sample-service/repository/workflows"
+    enable: false
+    child_depth: 100
+    link_to_depth: 0
+    link_from_depth: 0
+
+- output_path: "repository/user-service/external-api/ログアウトAPI.puml"
+  conditions:
+  - id: "sample-service/repository/user-service/external-api/ログアウトAPI"
+    enable: true
+    child_depth: 100
+    link_to_depth: 100
+    link_from_depth: 0
+  - id: "sample-service/infra/kubernetes"
+    enable: false
+    child_depth: 100
+    link_to_depth: 0
+    link_from_depth: 0
+  - id: "sample-service/repository/workflows"
+    enable: false
+    child_depth: 100
+    link_to_depth: 0
+    link_from_depth: 0
+
+- output_path: "repository/user-service/external-api/ログインAPI.puml"
+  conditions:
+  - id: "sample-service/repository/user-service/external-api/ログインAPI"
+    enable: true
+    child_depth: 100
+    link_to_depth: 100
+    link_from_depth: 0
+  - id: "sample-service/infra/kubernetes"
+    enable: false
+    child_depth: 100
+    link_to_depth: 0
+    link_from_depth: 0
+  - id: "sample-service/repository/workflows"
+    enable: false
+    child_depth: 100
+    link_to_depth: 0
+    link_from_depth: 0
+
+- output_path: "repository/user-service/external-api/映画取得API.puml"
+  conditions:
+  - id: "sample-service/repository/user-service/external-api/映画取得API"
+    enable: true
+    child_depth: 100
+    link_to_depth: 100
+    link_from_depth: 0
+  - id: "sample-service/infra/kubernetes"
+    enable: false
+    child_depth: 100
+    link_to_depth: 0
+    link_from_depth: 0
+  - id: "sample-service/repository/workflows"
+    enable: false
+    child_depth: 100
+    link_to_depth: 0
+    link_from_depth: 0
+
+- output_path: "repository/user-service/external-api/解約API.puml"
+  conditions:
+  - id: "sample-service/repository/user-service/external-api/解約API"
+    enable: true
+    child_depth: 100
+    link_to_depth: 100
+    link_from_depth: 0
+  - id: "sample-service/infra/kubernetes"
+    enable: false
+    child_depth: 100
+    link_to_depth: 0
+    link_from_depth: 0
+  - id: "sample-service/repository/workflows"
+    enable: false
+    child_depth: 100
+    link_to_depth: 0
+    link_from_depth: 0
+
+- output_path: "repository/user-service/external-api/記事取得API.puml"
+  conditions:
+  - id: "sample-service/repository/user-service/external-api/記事取得API"
+    enable: true
+    child_depth: 100
+    link_to_depth: 100
+    link_from_depth: 0
+  - id: "sample-service/infra/kubernetes"
+    enable: false
+    child_depth: 100
+    link_to_depth: 0
+    link_from_depth: 0
+  - id: "sample-service/repository/workflows"
+    enable: false
+    child_depth: 100
+    link_to_depth: 0
+    link_from_depth: 0
+
+- output_path: "repository/user-service/external-api/新規登録API.puml"
+  conditions:
+  - id: "sample-service/repository/user-service/external-api/新規登録API"
+    enable: true
+    child_depth: 100
+    link_to_depth: 100
+    link_from_depth: 0
+  - id: "sample-service/infra/kubernetes"
+    enable: false
+    child_depth: 100
+    link_to_depth: 0
+    link_from_depth: 0
+  - id: "sample-service/repository/workflows"
+    enable: false
+    child_depth: 100
+    link_to_depth: 0
+    link_from_depth: 0
+
+- output_path: "repository/user-service/external-api/設定更新API.puml"
+  conditions:
+  - id: "sample-service/repository/user-service/external-api/設定更新API"
+    enable: true
+    child_depth: 100
+    link_to_depth: 100
+    link_from_depth: 0
+  - id: "sample-service/infra/kubernetes"
+    enable: false
+    child_depth: 100
+    link_to_depth: 0
+    link_from_depth: 0
+  - id: "sample-service/repository/workflows"
+    enable: false
+    child_depth: 100
+    link_to_depth: 0
+    link_from_depth: 0
+
+- output_path: "repository/user-service/external-api/設定取得API.puml"
+  conditions:
+  - id: "sample-service/repository/user-service/external-api/設定取得API"
+    enable: true
+    child_depth: 100
+    link_to_depth: 100
+    link_from_depth: 0
+  - id: "sample-service/infra/kubernetes"
+    enable: false
+    child_depth: 100
+    link_to_depth: 0
+    link_from_depth: 0
+  - id: "sample-service/repository/workflows"
+    enable: false
+    child_depth: 100
+    link_to_depth: 0
+    link_from_depth: 0
+
+# ==================================================================
+# ==== repository/article-service/internal-api
+# ==================================================================
+- output_path: "repository/article-service/internal-api/記事取得API.puml"
+  conditions:
+  - id: "sample-service/repository/article-service/internal-api/記事取得API"
+    enable: true
+    child_depth: 100
+    link_to_depth: 100
+    link_from_depth: 0
+
+# ==================================================================
+# ==== repository/article-service/batch
+# ==================================================================
+- output_path: "repository/article-service/batch/scrape-articles.puml"
+  conditions:
+  - id: "sample-service/repository/article-service/batch/scrape-articles"
+    enable: true
+    child_depth: 100
+    link_to_depth: 100
+    link_from_depth: 0
+  - id: "sample-service/infra/kubernetes"
+    enable: false
+    child_depth: 100
+    link_to_depth: 0
+    link_from_depth: 0
+  - id: "sample-service/repository/workflows"
+    enable: false
+    child_depth: 100
+    link_to_depth: 0
+    link_from_depth: 0
+
+- output_path: "repository/article-service/batch/calc-talent-relation-score.puml"
+  conditions:
+  - id: "sample-service/repository/article-service/batch/calc-talent-relation-score"
+    enable: true
+    child_depth: 100
+    link_to_depth: 100
+    link_from_depth: 0
+  - id: "sample-service/infra/kubernetes"
+    enable: false
+    child_depth: 100
+    link_to_depth: 0
+    link_from_depth: 0
+  - id: "sample-service/repository/workflows"
+    enable: false
+    child_depth: 100
+    link_to_depth: 0
+    link_from_depth: 0
+
+- output_path: "repository/article-service/batch/load-articles.puml"
+  conditions:
+  - id: "sample-service/repository/article-service/batch/load-articles"
+    enable: true
+    child_depth: 100
+    link_to_depth: 100
+    link_from_depth: 0
+  - id: "sample-service/infra/kubernetes"
+    enable: false
+    child_depth: 100
+    link_to_depth: 0
+    link_from_depth: 0
+  - id: "sample-service/repository/workflows"
+    enable: false
+    child_depth: 100
+    link_to_depth: 0
+    link_from_depth: 0
+
+- output_path: "repository/article-service/batch/purge-past-articles.puml"
+  conditions:
+  - id: "sample-service/repository/article-service/batch/purge-past-articles"
+    enable: true
+    child_depth: 100
+    link_to_depth: 100
+    link_from_depth: 0
+  - id: "sample-service/infra/kubernetes"
+    enable: false
+    child_depth: 100
+    link_to_depth: 0
+    link_from_depth: 0
+  - id: "sample-service/repository/workflows"
+    enable: false
+    child_depth: 100
+    link_to_depth: 0
+    link_from_depth: 0
+
+# ==================================================================
+# ==== repository/movie-service/internal-api
+# ==================================================================
+- output_path: "repository/movie-service/internal-api/映画取得API.puml"
+  conditions:
+  - id: "sample-service/repository/movie-service/internal-api/映画取得API"
+    enable: true
+    child_depth: 100
+    link_to_depth: 100
+    link_from_depth: 0
+
+# ==================================================================
+# ==== repository/movie-service/batch
+# ==================================================================
+- output_path: "repository/movie-service/batch/scrape-movies.puml"
+  conditions:
+  - id: "sample-service/repository/movie-service/batch/scrape-movies"
+    enable: true
+    child_depth: 100
+    link_to_depth: 100
+    link_from_depth: 0
+  - id: "sample-service/infra/kubernetes"
+    enable: false
+    child_depth: 100
+    link_to_depth: 0
+    link_from_depth: 0
+  - id: "sample-service/repository/workflows"
+    enable: false
+    child_depth: 100
+    link_to_depth: 0
+    link_from_depth: 0
+
+- output_path: "repository/movie-service/batch/calc-talent-relation-score.puml"
+  conditions:
+  - id: "sample-service/repository/movie-service/batch/calc-talent-relation-score"
+    enable: true
+    child_depth: 100
+    link_to_depth: 100
+    link_from_depth: 0
+  - id: "sample-service/infra/kubernetes"
+    enable: false
+    child_depth: 100
+    link_to_depth: 0
+    link_from_depth: 0
+  - id: "sample-service/repository/workflows"
+    enable: false
+    child_depth: 100
+    link_to_depth: 0
+    link_from_depth: 0
+
+- output_path: "repository/movie-service/batch/load-movies.puml"
+  conditions:
+  - id: "sample-service/repository/movie-service/batch/load-movies"
+    enable: true
+    child_depth: 100
+    link_to_depth: 100
+    link_from_depth: 0
+  - id: "sample-service/infra/kubernetes"
+    enable: false
+    child_depth: 100
+    link_to_depth: 0
+    link_from_depth: 0
+  - id: "sample-service/repository/workflows"
+    enable: false
+    child_depth: 100
+    link_to_depth: 0
+    link_from_depth: 0
+
+# ==================================================================
+# ==== repository/tv-show-service/internal-api
+# ==================================================================
+- output_path: "repository/tv-show-service/internal-api/テレビ番組取得API.puml"
+  conditions:
+  - id: "sample-service/repository/tv-show-service/internal-api/テレビ番組取得API"
+    enable: true
+    child_depth: 100
+    link_to_depth: 100
+    link_from_depth: 0
+
+# ==================================================================
+# ==== repository/tv-show-service/batch
+# ==================================================================
+- output_path: "repository/tv-show-service/batch/scrape-tv-shows.puml"
+  conditions:
+  - id: "sample-service/repository/tv-show-service/batch/scrape-tv-shows"
+    enable: true
+    child_depth: 100
+    link_to_depth: 100
+    link_from_depth: 0
+  - id: "sample-service/infra/kubernetes"
+    enable: false
+    child_depth: 100
+    link_to_depth: 0
+    link_from_depth: 0
+  - id: "sample-service/repository/workflows"
+    enable: false
+    child_depth: 100
+    link_to_depth: 0
+    link_from_depth: 0
+
+- output_path: "repository/tv-show-service/batch/calc-talent-relation-score.puml"
+  conditions:
+  - id: "sample-service/repository/tv-show-service/batch/calc-talent-relation-score"
+    enable: true
+    child_depth: 100
+    link_to_depth: 100
+    link_from_depth: 0
+  - id: "sample-service/infra/kubernetes"
+    enable: false
+    child_depth: 100
+    link_to_depth: 0
+    link_from_depth: 0
+  - id: "sample-service/repository/workflows"
+    enable: false
+    child_depth: 100
+    link_to_depth: 0
+    link_from_depth: 0
+
+- output_path: "repository/tv-show-service/batch/load-tv-shows.puml"
+  conditions:
+  - id: "sample-service/repository/tv-show-service/batch/load-tv-shows"
+    enable: true
+    child_depth: 100
+    link_to_depth: 100
+    link_from_depth: 0
+  - id: "sample-service/infra/kubernetes"
+    enable: false
+    child_depth: 100
+    link_to_depth: 0
+    link_from_depth: 0
+  - id: "sample-service/repository/workflows"
+    enable: false
+    child_depth: 100
+    link_to_depth: 0
+    link_from_depth: 0
+
+- output_path: "repository/tv-show-service/batch/purge-past-tv-shows.puml"
+  conditions:
+  - id: "sample-service/repository/tv-show-service/batch/purge-past-tv-shows"
+    enable: true
+    child_depth: 100
+    link_to_depth: 100
+    link_from_depth: 0
+  - id: "sample-service/infra/kubernetes"
+    enable: false
+    child_depth: 100
+    link_to_depth: 0
+    link_from_depth: 0
+  - id: "sample-service/repository/workflows"
+    enable: false
+    child_depth: 100
+    link_to_depth: 0
+    link_from_depth: 0
+
+# ==================================================================
+# ==== repository/workflows
+# ==================================================================
+- output_path: "repository/workflows/all.puml"
+  conditions:
+  - id: "sample-service/repository/workflows"
+    enable: true
+    child_depth: 2
+    link_to_depth: 0
+    link_from_depth: 0
+  - id: "sample-service/infra/kubernetes"
+    enable: false
+    child_depth: 100
+    link_to_depth: 0
+    link_from_depth: 0
+
+- output_path: "repository/workflows/scrape-and-load-articles.puml"
+  conditions:
+  - id: "sample-service/repository/workflows/scrape-and-load-articles"
+    enable: true
+    child_depth: 100
+    link_to_depth: 1
+    link_from_depth: 0
+  - id: "sample-service/infra/kubernetes"
+    enable: false
+    child_depth: 100
+    link_to_depth: 0
+    link_from_depth: 0
+
+- output_path: "repository/workflows/scrape-and-load-movies.puml"
+  conditions:
+  - id: "sample-service/repository/workflows/scrape-and-load-movies"
+    enable: true
+    child_depth: 100
+    link_to_depth: 100
+    link_from_depth: 0
+  - id: "sample-service/infra/kubernetes"
+    enable: false
+    child_depth: 100
+    link_to_depth: 0
+    link_from_depth: 0
+
+- output_path: "repository/workflows/scrape-and-load-tv-shows.puml"
+  conditions:
+  - id: "sample-service/repository/workflows/scrape-and-load-tv-shows"
+    enable: true
+    child_depth: 100
+    link_to_depth: 100
+    link_from_depth: 0
+  - id: "sample-service/infra/kubernetes"
+    enable: false
+    child_depth: 100
+    link_to_depth: 0
+    link_from_depth: 0
+
+- output_path: "repository/workflows/purge-past-data.puml"
+  conditions:
+  - id: "sample-service/repository/workflows/purge-past-data"
+    enable: true
+    child_depth: 100
+    link_to_depth: 100
+    link_from_depth: 0
+  - id: "sample-service/infra/kubernetes"
+    enable: false
+    child_depth: 100
+    link_to_depth: 0
+    link_from_depth: 0
+
+# ==================================================================
+# ==== infra/BigQuery
+# ==================================================================
+- output_path: "infra/BigQuery/all.puml"
+  conditions:
+  - id: "sample-service/infra/BigQuery"
+    enable: true
+    child_depth: 2
+    link_to_depth: 0
+    link_from_depth: 0
+
+- output_path: "infra/BigQuery/article.puml"
+  conditions:
+  - id: "sample-service/infra/BigQuery/article"
+    enable: true
+    child_depth: 1
+    link_to_depth: 0
+    link_from_depth: 2
+  - id: "sample-service/infra/kubernetes"
+    enable: false
+    child_depth: 100
+    link_to_depth: 0
+    link_from_depth: 0
+  - id: "sample-service/repository/workflows"
+    enable: false
+    child_depth: 100
+    link_to_depth: 0
+    link_from_depth: 0
+
+# ==================================================================
+# ==== infra/CloudSQL
+# ==================================================================
+- output_path: "infra/CloudSQL/all.puml"
+  conditions:
+  - id: "sample-service/infra/CloudSQL"
+    enable: true
+    child_depth: 2
+    link_to_depth: 0
+    link_from_depth: 0
+
+- output_path: "infra/db.puml"
+  conditions:
+  - id: "sample-service/infra/CloudSQL"
+    enable: true
+    child_depth: 2
+    link_to_depth: 0
+    link_from_depth: 0
+  - id: "sample-service/infra/BigQuery"
+    enable: true
+    child_depth: 2
+    link_to_depth: 0
+    link_from_depth: 0
+
+- output_path: "infra/CloudSQL/article-service/articles.puml"
+  conditions:
+  - id: "sample-service/infra/CloudSQL/article-service/articles"
+    enable: true
+    child_depth: 0
+    link_to_depth: 0
+    link_from_depth: 1
+  - id: "sample-service/infra/kubernetes"
+    enable: false
+    child_depth: 100
+    link_to_depth: 0
+    link_from_depth: 0
+  - id: "sample-service/repository/workflows"
+    enable: false
+    child_depth: 100
+    link_to_depth: 0
+    link_from_depth: 0
+
+- output_path: "infra/CloudSQL/article-service/article_talents.puml"
+  conditions:
+  - id: "sample-service/infra/CloudSQL/article-service/article_talents"
+    enable: true
+    child_depth: 0
+    link_to_depth: 0
+    link_from_depth: 1
+  - id: "sample-service/infra/kubernetes"
+    enable: false
+    child_depth: 100
+    link_to_depth: 0
+    link_from_depth: 0
+  - id: "sample-service/repository/workflows"
+    enable: false
+    child_depth: 100
+    link_to_depth: 0
+    link_from_depth: 0
+
+# ==================================================================
+# ==== infra/kubernetes
+# ==================================================================
+- output_path: "infra/kubernetes/all.puml"
+  conditions:
+  - id: "sample-service/infra/kubernetes/ingress"
+    enable: true
+    child_depth: 1
+    link_to_depth: 0
+    link_from_depth: 0
+  - id: "sample-service/infra/kubernetes/service"
+    enable: true
+    child_depth: 1
+    link_to_depth: 0
+    link_from_depth: 0
+  - id: "sample-service/infra/kubernetes/job"
+    enable: true
+    child_depth: 2
+    link_to_depth: 0
+    link_from_depth: 0
+  - id: "sample-service/infra/BigQuery"
+    enable: true
+    child_depth: 1
+    link_to_depth: 0
+    link_from_depth: 0
+  - id: "sample-service/infra/CloudSQL"
+    enable: true
+    child_depth: 1
+    link_to_depth: 0
+    link_from_depth: 0
+
+- output_path: "infra/kubernetes/service.puml"
+  conditions:
+  - id: "sample-service/infra/kubernetes/ingress"
+    enable: true
+    child_depth: 1
+    link_to_depth: 0
+    link_from_depth: 0
+  - id: "sample-service/infra/kubernetes/service"
+    enable: true
+    child_depth: 1
+    link_to_depth: 0
+    link_from_depth: 0
+  - id: "sample-service/infra/BigQuery"
+    enable: true
+    child_depth: 1
+    link_to_depth: 0
+    link_from_depth: 0
+  - id: "sample-service/infra/CloudSQL"
+    enable: true
+    child_depth: 1
+    link_to_depth: 0
+    link_from_depth: 0
+
+- output_path: "infra/kubernetes/job.puml"
+  conditions:
+  - id: "sample-service/infra/kubernetes/job"
+    enable: true
+    child_depth: 2
+    link_to_depth: 0
+    link_from_depth: 0
+  - id: "sample-service/infra/BigQuery"
+    enable: true
+    child_depth: 1
+    link_to_depth: 0
+    link_from_depth: 0
+  - id: "sample-service/infra/CloudSQL"
+    enable: true
+    child_depth: 1
+    link_to_depth: 0
+    link_from_depth: 0
+
+# ==================================================================
+# ==== user
+# ==================================================================
+- output_path: "user/all.puml"
+  conditions:
+  - id: "sample-service/user"
+    enable: true
+    child_depth: 1
+    link_to_depth: 0
+    link_from_depth: 0
+  - id: "sample-service/infra/kubernetes/ingress"
+    enable: true
+    child_depth: 1
+    link_to_depth: 0
+    link_from_depth: 0
+  - id: "sample-service/infra/kubernetes/service"
+    enable: true
+    child_depth: 1
+    link_to_depth: 0
+    link_from_depth: 0
+  - id: "sample-service/infra/BigQuery"
+    enable: true
+    child_depth: 1
+    link_to_depth: 0
+    link_from_depth: 0
+  - id: "sample-service/infra/CloudSQL"
+    enable: true
+    child_depth: 1
+    link_to_depth: 0
+    link_from_depth: 0

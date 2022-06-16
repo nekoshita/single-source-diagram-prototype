@@ -1,0 +1,3 @@
+links:
+- id: sample-service/infra/BigQuery/tv_show/tv_shows
+  type: post

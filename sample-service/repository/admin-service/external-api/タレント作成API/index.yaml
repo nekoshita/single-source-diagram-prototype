@@ -1,0 +1,19 @@
+content: |-
+  POST /api/v1/talents
+
+  【リクエスト】
+  {
+    id: string
+    name: string
+    image_url: string
+    description: string
+  }
+
+  【レスポンス】
+  204: {}
+  401: {
+    error_code: string
+  }
+links:
+- id: sample-service/repository/talent-service/internal-api/タレント作成API
+  type: post

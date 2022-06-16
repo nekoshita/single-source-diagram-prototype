@@ -1,0 +1,33 @@
+@startuml
+hide circle
+rectangle "sample-service" as sample-service {
+    rectangle "infra" as sample-service/infra {
+        rectangle "BigQuery" as sample-service/infra/BigQuery {
+            rectangle "tv_show" as sample-service/infra/BigQuery/tv_show {
+                class "talent_relation_scores" as sample-service/infra/BigQuery/tv_show/talent_relation_scores {
+                    各タレントとの関連度のスコアを保持するテーブル\nPARTITIONEDテーブル\n\n【スキーマ】\ntv_show_id: string REQUIRED\ntalent_id: string REQUIRED\nscore: float REQUIRED
+                }
+                class "tv_shows" as sample-service/infra/BigQuery/tv_show/tv_shows {
+                    PARTITIONEDテーブル\n【スキーマ】\nid: string REQUIRED\nname: string REQUIRED\nimage_url: string REQUIRED\ndescription: string REQUIRED \ntv_region: string REQUIRED
+                }
+            }
+            rectangle "article" as sample-service/infra/BigQuery/article {
+                class "articles" as sample-service/infra/BigQuery/article/articles {
+                    PARTITIONEDテーブル\n【スキーマ】\nid: string REQUIRED\nname: string REQUIRED\nimage_url: string REQUIRED\ndescription: string REQUIRED 
+                }
+                class "talent_relation_scores" as sample-service/infra/BigQuery/article/talent_relation_scores {
+                    各タレントとの関連度のスコアを保持するテーブル\nPARTITIONEDテーブル\n\n【スキーマ】\narticle/id: string REQUIRED\ntalent_id: string REQUIRED\nscore: float REQUIRED
+                }
+            }
+            rectangle "movie" as sample-service/infra/BigQuery/movie {
+                class "movies" as sample-service/infra/BigQuery/movie/movies {
+                    PARTITIONEDテーブル\n【スキーマ】\nid: string REQUIRED\nname: string REQUIRED\nimage_url: string REQUIRED\ndescription: string REQUIRED 
+                }
+                class "talent_relation_scores" as sample-service/infra/BigQuery/movie/talent_relation_scores {
+                    各タレントとの関連度のスコアを保持するテーブル\nPARTITIONEDテーブル\n\n【スキーマ】\nmovie/id: string REQUIRED\ntalent_id: string REQUIRED\nscore: float REQUIRED
+                }
+            }
+        }
+    }
+}
+@enduml

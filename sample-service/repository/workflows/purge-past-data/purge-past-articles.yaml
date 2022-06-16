@@ -1,0 +1,4 @@
+refer_to: sample-service/repository/article-service/batch/purge-past-articles
+links:
+- id: sample-service/repository/workflows/purge-past-data/end
+  type: flow

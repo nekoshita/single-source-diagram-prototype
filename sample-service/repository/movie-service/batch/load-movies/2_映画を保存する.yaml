@@ -1,0 +1,5 @@
+links:
+- id: sample-service/infra/CloudSQL/movie-service/movies
+  type: post
+- id: sample-service/infra/CloudSQL/movie-service/movie_talents
+  type: post

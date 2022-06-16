@@ -1,0 +1,62 @@
+@startuml
+hide circle
+rectangle "sample-service" as sample-service {
+    rectangle "infra" as sample-service/infra {
+        rectangle "BigQuery" as sample-service/infra/BigQuery {
+            circle "tv_show" as sample-service/infra/BigQuery/tv_show
+            circle "article" as sample-service/infra/BigQuery/article
+            circle "movie" as sample-service/infra/BigQuery/movie
+        }
+        rectangle "CloudSQL" as sample-service/infra/CloudSQL {
+            circle "user-service" as sample-service/infra/CloudSQL/user-service
+            circle "article-service" as sample-service/infra/CloudSQL/article-service
+            circle "movie-service" as sample-service/infra/CloudSQL/movie-service
+            circle "talent-service" as sample-service/infra/CloudSQL/talent-service
+            circle "tv-show-service" as sample-service/infra/CloudSQL/tv-show-service
+        }
+        rectangle "kubernetes" as sample-service/infra/kubernetes {
+            rectangle "ingress" as sample-service/infra/kubernetes/ingress {
+                class "admin" as sample-service/infra/kubernetes/ingress/admin {
+                    admin.sample-service.comでアクセス化\nIAPによる認証あり
+                }
+                class "user" as sample-service/infra/kubernetes/ingress/user {
+                    sample-service.comでアクセス化
+                }
+            }
+            rectangle "service" as sample-service/infra/kubernetes/service {
+                circle "article-internal-api" as sample-service/infra/kubernetes/service/article-internal-api
+                circle "movie-internal-api" as sample-service/infra/kubernetes/service/movie-internal-api
+                circle "talent-internal-api" as sample-service/infra/kubernetes/service/talent-internal-api
+                circle "tv-show-internal-api" as sample-service/infra/kubernetes/service/tv-show-internal-api
+                circle "user-external-api" as sample-service/infra/kubernetes/service/user-external-api
+                circle "admin-external-api" as sample-service/infra/kubernetes/service/admin-external-api
+            }
+        }
+    }
+    rectangle "user" as sample-service/user {
+        circle "admin" as sample-service/user/admin
+        circle "mobile_app" as sample-service/user/mobile_app
+        circle "user" as sample-service/user/user
+        circle "web_browser" as sample-service/user/web_browser
+    }
+}
+"sample-service/infra/kubernetes/ingress/admin" --> "sample-service/infra/kubernetes/service/admin-external-api"
+"sample-service/infra/kubernetes/ingress/user" --> "sample-service/infra/kubernetes/service/user-external-api"
+"sample-service/infra/kubernetes/service/article-internal-api" ..|> "sample-service/infra/CloudSQL/article-service"
+"sample-service/infra/kubernetes/service/movie-internal-api" ..|> "sample-service/infra/CloudSQL/movie-service"
+"sample-service/infra/kubernetes/service/talent-internal-api" --|> "sample-service/infra/CloudSQL/talent-service"
+"sample-service/infra/kubernetes/service/talent-internal-api" ..|> "sample-service/infra/CloudSQL/talent-service"
+"sample-service/infra/kubernetes/service/tv-show-internal-api" ..|> "sample-service/infra/CloudSQL/tv-show-service"
+"sample-service/infra/kubernetes/service/user-external-api" ..|> "sample-service/infra/CloudSQL/user-service"
+"sample-service/infra/kubernetes/service/user-external-api" ..|> "sample-service/infra/kubernetes/service/article-internal-api"
+"sample-service/infra/kubernetes/service/user-external-api" --|> "sample-service/infra/CloudSQL/user-service"
+"sample-service/infra/kubernetes/service/user-external-api" ..|> "sample-service/infra/kubernetes/service/tv-show-internal-api"
+"sample-service/infra/kubernetes/service/user-external-api" ..|> "sample-service/infra/kubernetes/service/movie-internal-api"
+"sample-service/infra/kubernetes/service/user-external-api" ..|> "sample-service/infra/kubernetes/service/talent-internal-api"
+"sample-service/infra/kubernetes/service/admin-external-api" --|> "sample-service/infra/kubernetes/service/talent-internal-api"
+"sample-service/infra/kubernetes/service/admin-external-api" ..|> "sample-service/infra/kubernetes/service/talent-internal-api"
+"sample-service/user/admin" --> "sample-service/user/web_browser"
+"sample-service/user/mobile_app" --> "sample-service/infra/kubernetes/ingress/user"
+"sample-service/user/user" --> "sample-service/user/mobile_app"
+"sample-service/user/web_browser" --> "sample-service/infra/kubernetes/ingress/admin"
+@enduml

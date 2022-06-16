@@ -1,0 +1,28 @@
+content: |-
+  GET /internal/api/v1/articles
+  指定したタレントに関連する記事一覧を返します
+
+  【リクエスト】
+  {
+    talent_ids: []int
+    cursor: string,nullable,取得した最後のtalent_id
+    limit: int,取得したいtalent数
+  }
+
+  【レスポンス】
+  200: {
+    articles: [{
+      id: string
+      name: string
+      image_url: string
+      description: string
+    }]
+  }
+  401: {
+    error_code: string
+  }
+links:
+- id: sample-service/infra/CloudSQL/article-service/articles
+  type: get
+- id: sample-service/infra/CloudSQL/article-service/article_talents
+  type: get

@@ -1,0 +1,45 @@
+@startuml
+hide circle
+rectangle "sample-service" as sample-service {
+    rectangle "infra" as sample-service/infra {
+        rectangle "BigQuery" as sample-service/infra/BigQuery {
+            rectangle "article" as sample-service/infra/BigQuery/article {
+                class "articles" as sample-service/infra/BigQuery/article/articles {
+                    PARTITIONEDテーブル\n【スキーマ】\nid: string REQUIRED\nname: string REQUIRED\nimage_url: string REQUIRED\ndescription: string REQUIRED 
+                }
+                class "talent_relation_scores" as sample-service/infra/BigQuery/article/talent_relation_scores {
+                    各タレントとの関連度のスコアを保持するテーブル\nPARTITIONEDテーブル\n\n【スキーマ】\narticle/id: string REQUIRED\ntalent_id: string REQUIRED\nscore: float REQUIRED
+                }
+            }
+        }
+    }
+    rectangle "repository" as sample-service/repository {
+        rectangle "article-service" as sample-service/repository/article-service {
+            rectangle "batch" as sample-service/repository/article-service/batch {
+                rectangle "calc-talent-relation-score" as sample-service/repository/article-service/batch/calc-talent-relation-score {
+                    circle "1_タレントを取得する" as sample-service/repository/article-service/batch/calc-talent-relation-score/1_タレントを取得する
+                    circle "2_計算対象の記事を取得する" as sample-service/repository/article-service/batch/calc-talent-relation-score/2_計算対象の記事を取得する
+                    circle "3_関連度のスコアを計算する" as sample-service/repository/article-service/batch/calc-talent-relation-score/3_関連度のスコアを計算する
+                    circle "4_関連度のスコアを保存する" as sample-service/repository/article-service/batch/calc-talent-relation-score/4_関連度のスコアを保存する
+                }
+                rectangle "load-articles" as sample-service/repository/article-service/batch/load-articles {
+                    circle "1_関連度が閾値を超える記事を取得" as sample-service/repository/article-service/batch/load-articles/1_関連度が閾値を超える記事を取得
+                }
+                rectangle "scrape-articles" as sample-service/repository/article-service/batch/scrape-articles {
+                    circle "1_各メディアをスクレイプする" as sample-service/repository/article-service/batch/scrape-articles/1_各メディアをスクレイプする
+                    circle "2_BQに保存する" as sample-service/repository/article-service/batch/scrape-articles/2_BQに保存する
+                }
+            }
+        }
+    }
+}
+"sample-service/repository/article-service/batch/calc-talent-relation-score/1_タレントを取得する" --> "sample-service/repository/article-service/batch/calc-talent-relation-score/2_計算対象の記事を取得する"
+"sample-service/repository/article-service/batch/calc-talent-relation-score/2_計算対象の記事を取得する" --> "sample-service/repository/article-service/batch/calc-talent-relation-score/3_関連度のスコアを計算する"
+"sample-service/repository/article-service/batch/calc-talent-relation-score/2_計算対象の記事を取得する" ..|> "sample-service/infra/BigQuery/article/articles"
+"sample-service/repository/article-service/batch/calc-talent-relation-score/3_関連度のスコアを計算する" --> "sample-service/repository/article-service/batch/calc-talent-relation-score/4_関連度のスコアを保存する"
+"sample-service/repository/article-service/batch/calc-talent-relation-score/4_関連度のスコアを保存する" --|> "sample-service/infra/BigQuery/article/talent_relation_scores"
+"sample-service/repository/article-service/batch/load-articles/1_関連度が閾値を超える記事を取得" ..|> "sample-service/infra/BigQuery/article/articles"
+"sample-service/repository/article-service/batch/load-articles/1_関連度が閾値を超える記事を取得" ..|> "sample-service/infra/BigQuery/article/talent_relation_scores"
+"sample-service/repository/article-service/batch/scrape-articles/1_各メディアをスクレイプする" --> "sample-service/repository/article-service/batch/scrape-articles/2_BQに保存する"
+"sample-service/repository/article-service/batch/scrape-articles/2_BQに保存する" --|> "sample-service/infra/BigQuery/article/articles"
+@enduml

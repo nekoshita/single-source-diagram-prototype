@@ -1,0 +1,6 @@
+content: |-
+  【スキーマ】
+  id: string PRIMARY_KEY
+  email_address: string NOT_NULL
+  password_hash: string NOT_NULL
+  created_at: timestamp NOT_NULL 

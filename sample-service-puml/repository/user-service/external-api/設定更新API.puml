@@ -1,0 +1,24 @@
+@startuml
+hide circle
+rectangle "sample-service" as sample-service {
+    rectangle "infra" as sample-service/infra {
+        rectangle "CloudSQL" as sample-service/infra/CloudSQL {
+            rectangle "user-service" as sample-service/infra/CloudSQL/user-service {
+                class "user_settings" as sample-service/infra/CloudSQL/user-service/user_settings {
+                    【スキーマ】\nuser_id: string PRIMARY_KEY\ntv_show_region: string NOT_NULL
+                }
+            }
+        }
+    }
+    rectangle "repository" as sample-service/repository {
+        rectangle "user-service" as sample-service/repository/user-service {
+            rectangle "external-api" as sample-service/repository/user-service/external-api {
+                class "設定更新API" as sample-service/repository/user-service/external-api/設定更新API {
+                    POST /api/v1/setting\n\n【リクエスト】\n{\n  tv_region: string\n}\n\n【レスポンス】\n204: {}\n401: {\n  error_code: string\n}
+                }
+            }
+        }
+    }
+}
+"sample-service/repository/user-service/external-api/設定更新API" --|> "sample-service/infra/CloudSQL/user-service/user_settings"
+@enduml

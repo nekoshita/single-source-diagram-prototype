@@ -1,0 +1,28 @@
+@startuml
+hide circle
+rectangle "sample-service" as sample-service {
+    rectangle "infra" as sample-service/infra {
+        rectangle "CloudSQL" as sample-service/infra/CloudSQL {
+            rectangle "tv-show-service" as sample-service/infra/CloudSQL/tv-show-service {
+                class "tv_show_talents" as sample-service/infra/CloudSQL/tv-show-service/tv_show_talents {
+                    【スキーマ】\ntv_show_id: string PRIMARY_KEY\ntalent_id: string PRIMARY_KEY
+                }
+                class "tv_shows" as sample-service/infra/CloudSQL/tv-show-service/tv_shows {
+                    【スキーマ】\nid: string PRIMARY_KEY\nname: string NOT_NULL\nimage_url: string NOT_NULL\ndescription: string NOT_NULL \nstart_at: timestamp NOT_NULL \nend_at: timestamp NOT_NULL \ntv_region: string NOT_NULL 
+                }
+            }
+        }
+    }
+    rectangle "repository" as sample-service/repository {
+        rectangle "tv-show-service" as sample-service/repository/tv-show-service {
+            rectangle "batch" as sample-service/repository/tv-show-service/batch {
+                rectangle "purge-past-tv-shows" as sample-service/repository/tv-show-service/batch/purge-past-tv-shows {
+                    circle "1_過去データを削除" as sample-service/repository/tv-show-service/batch/purge-past-tv-shows/1_過去データを削除
+                }
+            }
+        }
+    }
+}
+"sample-service/repository/tv-show-service/batch/purge-past-tv-shows/1_過去データを削除" --|> "sample-service/infra/CloudSQL/tv-show-service/tv_shows"
+"sample-service/repository/tv-show-service/batch/purge-past-tv-shows/1_過去データを削除" --|> "sample-service/infra/CloudSQL/tv-show-service/tv_show_talents"
+@enduml

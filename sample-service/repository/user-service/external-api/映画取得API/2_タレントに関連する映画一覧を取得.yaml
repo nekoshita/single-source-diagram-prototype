@@ -1,0 +1,5 @@
+links:
+- id: sample-service/repository/user-service/external-api/映画取得API/3_レスポンス
+  type: flow
+- id: sample-service/repository/movie-service/internal-api/映画取得API
+  type: get

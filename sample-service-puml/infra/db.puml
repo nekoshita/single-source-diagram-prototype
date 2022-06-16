@@ -1,0 +1,75 @@
+@startuml
+hide circle
+rectangle "sample-service" as sample-service {
+    rectangle "infra" as sample-service/infra {
+        rectangle "BigQuery" as sample-service/infra/BigQuery {
+            rectangle "tv_show" as sample-service/infra/BigQuery/tv_show {
+                class "talent_relation_scores" as sample-service/infra/BigQuery/tv_show/talent_relation_scores {
+                    各タレントとの関連度のスコアを保持するテーブル\nPARTITIONEDテーブル\n\n【スキーマ】\ntv_show_id: string REQUIRED\ntalent_id: string REQUIRED\nscore: float REQUIRED
+                }
+                class "tv_shows" as sample-service/infra/BigQuery/tv_show/tv_shows {
+                    PARTITIONEDテーブル\n【スキーマ】\nid: string REQUIRED\nname: string REQUIRED\nimage_url: string REQUIRED\ndescription: string REQUIRED \ntv_region: string REQUIRED
+                }
+            }
+            rectangle "article" as sample-service/infra/BigQuery/article {
+                class "articles" as sample-service/infra/BigQuery/article/articles {
+                    PARTITIONEDテーブル\n【スキーマ】\nid: string REQUIRED\nname: string REQUIRED\nimage_url: string REQUIRED\ndescription: string REQUIRED 
+                }
+                class "talent_relation_scores" as sample-service/infra/BigQuery/article/talent_relation_scores {
+                    各タレントとの関連度のスコアを保持するテーブル\nPARTITIONEDテーブル\n\n【スキーマ】\narticle/id: string REQUIRED\ntalent_id: string REQUIRED\nscore: float REQUIRED
+                }
+            }
+            rectangle "movie" as sample-service/infra/BigQuery/movie {
+                class "movies" as sample-service/infra/BigQuery/movie/movies {
+                    PARTITIONEDテーブル\n【スキーマ】\nid: string REQUIRED\nname: string REQUIRED\nimage_url: string REQUIRED\ndescription: string REQUIRED 
+                }
+                class "talent_relation_scores" as sample-service/infra/BigQuery/movie/talent_relation_scores {
+                    各タレントとの関連度のスコアを保持するテーブル\nPARTITIONEDテーブル\n\n【スキーマ】\nmovie/id: string REQUIRED\ntalent_id: string REQUIRED\nscore: float REQUIRED
+                }
+            }
+        }
+        rectangle "CloudSQL" as sample-service/infra/CloudSQL {
+            rectangle "user-service" as sample-service/infra/CloudSQL/user-service {
+                class "user_settings" as sample-service/infra/CloudSQL/user-service/user_settings {
+                    【スキーマ】\nuser_id: string PRIMARY_KEY\ntv_show_region: string NOT_NULL
+                }
+                class "users" as sample-service/infra/CloudSQL/user-service/users {
+                    【スキーマ】\nid: string PRIMARY_KEY\nemail_address: string NOT_NULL\npassword_hash: string NOT_NULL\ncreated_at: timestamp NOT_NULL 
+                }
+                class "follows" as sample-service/infra/CloudSQL/user-service/follows {
+                    【スキーマ】\nuser_id: string PRIMARY_KEY\ntalent_id: string PRIMARY_KEY
+                }
+            }
+            rectangle "article-service" as sample-service/infra/CloudSQL/article-service {
+                class "articles" as sample-service/infra/CloudSQL/article-service/articles {
+                    【スキーマ】\nid: string PRIMARY_KEY\nname: string NOT_NULL\nimage_url: string NOT_NULL\ndescription: string NOT_NULL 
+                }
+                class "article_talents" as sample-service/infra/CloudSQL/article-service/article_talents {
+                    【スキーマ】\narticle/id: string PRIMARY_KEY\ntalent_id: string PRIMARY_KEY
+                }
+            }
+            rectangle "movie-service" as sample-service/infra/CloudSQL/movie-service {
+                class "movies" as sample-service/infra/CloudSQL/movie-service/movies {
+                    【スキーマ】\nid: string PRIMARY_KEY\nname: string NOT_NULL\nimage_url: string NOT_NULL\ndescription: string NOT_NULL 
+                }
+                class "movie_talents" as sample-service/infra/CloudSQL/movie-service/movie_talents {
+                    【スキーマ】\nmovie/id: string PRIMARY_KEY\ntalent_id: string PRIMARY_KEY
+                }
+            }
+            rectangle "talent-service" as sample-service/infra/CloudSQL/talent-service {
+                class "talents" as sample-service/infra/CloudSQL/talent-service/talents {
+                    【スキーマ】\nid: string PRIMARY_KEY\nname: string NOT_NULL\nimage_url: string NOT_NULL\ndescription: string NOT_NULL 
+                }
+            }
+            rectangle "tv-show-service" as sample-service/infra/CloudSQL/tv-show-service {
+                class "tv_show_talents" as sample-service/infra/CloudSQL/tv-show-service/tv_show_talents {
+                    【スキーマ】\ntv_show_id: string PRIMARY_KEY\ntalent_id: string PRIMARY_KEY
+                }
+                class "tv_shows" as sample-service/infra/CloudSQL/tv-show-service/tv_shows {
+                    【スキーマ】\nid: string PRIMARY_KEY\nname: string NOT_NULL\nimage_url: string NOT_NULL\ndescription: string NOT_NULL \nstart_at: timestamp NOT_NULL \nend_at: timestamp NOT_NULL \ntv_region: string NOT_NULL 
+                }
+            }
+        }
+    }
+}
+@enduml

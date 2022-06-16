@@ -1,0 +1,28 @@
+@startuml
+hide circle
+rectangle "sample-service" as sample-service {
+    rectangle "infra" as sample-service/infra {
+        rectangle "CloudSQL" as sample-service/infra/CloudSQL {
+            rectangle "article-service" as sample-service/infra/CloudSQL/article-service {
+                class "articles" as sample-service/infra/CloudSQL/article-service/articles {
+                    【スキーマ】\nid: string PRIMARY_KEY\nname: string NOT_NULL\nimage_url: string NOT_NULL\ndescription: string NOT_NULL 
+                }
+                class "article_talents" as sample-service/infra/CloudSQL/article-service/article_talents {
+                    【スキーマ】\narticle/id: string PRIMARY_KEY\ntalent_id: string PRIMARY_KEY
+                }
+            }
+        }
+    }
+    rectangle "repository" as sample-service/repository {
+        rectangle "article-service" as sample-service/repository/article-service {
+            rectangle "internal-api" as sample-service/repository/article-service/internal-api {
+                class "記事取得API" as sample-service/repository/article-service/internal-api/記事取得API {
+                    GET /internal/api/v1/articles\n指定したタレントに関連する記事一覧を返します\n\n【リクエスト】\n{\n  talent_ids: []int\n  cursor: string,nullable,取得した最後のtalent_id\n  limit: int,取得したいtalent数\n}\n\n【レスポンス】\n200: {\n  articles: [{\n    id: string\n    name: string\n    image_url: string\n    description: string\n  }]\n}\n401: {\n  error_code: string\n}
+                }
+            }
+        }
+    }
+}
+"sample-service/repository/article-service/internal-api/記事取得API" ..|> "sample-service/infra/CloudSQL/article-service/articles"
+"sample-service/repository/article-service/internal-api/記事取得API" ..|> "sample-service/infra/CloudSQL/article-service/article_talents"
+@enduml

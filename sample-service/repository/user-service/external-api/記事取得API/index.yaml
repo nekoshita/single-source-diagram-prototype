@@ -1,0 +1,22 @@
+content: |-
+  GET /api/v1/talents
+  フォローしてるタレントに関連する記事一覧を返します
+
+  【リクエスト】
+  {
+    cursor: string,nullable,取得した最後のtalent_id
+    limit: int,取得したいtalent数
+  }
+
+  【レスポンス】
+  200: {
+    talents: [{
+      id: string
+      name: string
+      image_url: string
+      description: string
+    }]
+  }
+  401: {
+    error_code: string
+  }

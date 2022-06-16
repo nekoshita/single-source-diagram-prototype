@@ -1,0 +1,6 @@
+content: |-
+  【スキーマ】
+  id: string PRIMARY_KEY
+  name: string NOT_NULL
+  image_url: string NOT_NULL
+  description: string NOT_NULL 

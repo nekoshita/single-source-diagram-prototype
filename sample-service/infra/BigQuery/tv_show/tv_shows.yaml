@@ -1,0 +1,8 @@
+content: |-
+  PARTITIONEDテーブル
+  【スキーマ】
+  id: string REQUIRED
+  name: string REQUIRED
+  image_url: string REQUIRED
+  description: string REQUIRED 
+  tv_region: string REQUIRED

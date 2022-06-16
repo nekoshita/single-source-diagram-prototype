@@ -1,0 +1,47 @@
+@startuml
+hide circle
+rectangle "sample-service" as sample-service {
+    rectangle "infra" as sample-service/infra {
+        rectangle "CloudSQL" as sample-service/infra/CloudSQL {
+            rectangle "user-service" as sample-service/infra/CloudSQL/user-service {
+                class "follows" as sample-service/infra/CloudSQL/user-service/follows {
+                    【スキーマ】\nuser_id: string PRIMARY_KEY\ntalent_id: string PRIMARY_KEY
+                }
+            }
+            rectangle "movie-service" as sample-service/infra/CloudSQL/movie-service {
+                class "movies" as sample-service/infra/CloudSQL/movie-service/movies {
+                    【スキーマ】\nid: string PRIMARY_KEY\nname: string NOT_NULL\nimage_url: string NOT_NULL\ndescription: string NOT_NULL 
+                }
+                class "movie_talents" as sample-service/infra/CloudSQL/movie-service/movie_talents {
+                    【スキーマ】\nmovie/id: string PRIMARY_KEY\ntalent_id: string PRIMARY_KEY
+                }
+            }
+        }
+    }
+    rectangle "repository" as sample-service/repository {
+        rectangle "user-service" as sample-service/repository/user-service {
+            rectangle "external-api" as sample-service/repository/user-service/external-api {
+                rectangle "映画取得API" as sample-service/repository/user-service/external-api/映画取得API {
+                    note "GET /api/v1/movies\nフォローしてるタレントに関連する映画一覧を返します\n\n【リクエスト】\n{\n  cursor: string,nullable,取得した最後のtalent_id\n  limit: int,取得したいtalent数\n}\n\n【レスポンス】\n200: {\n  movies: [{\n    id: string\n    name: string\n    image_url: string\n    description: string\n  }]\n}\n401: {\n  error_code: string\n}" as sample_service_repository_user_service_external_api_映画取得API_note
+                    circle "1_フォローしてるタレントID一覧を取得" as sample-service/repository/user-service/external-api/映画取得API/1_フォローしてるタレントID一覧を取得
+                    circle "2_タレントに関連する映画一覧を取得" as sample-service/repository/user-service/external-api/映画取得API/2_タレントに関連する映画一覧を取得
+                    circle "3_レスポンス" as sample-service/repository/user-service/external-api/映画取得API/3_レスポンス
+                }
+            }
+        }
+        rectangle "movie-service" as sample-service/repository/movie-service {
+            rectangle "internal-api" as sample-service/repository/movie-service/internal-api {
+                class "映画取得API" as sample-service/repository/movie-service/internal-api/映画取得API {
+                    GET /internal/api/v1/movies\n指定したタレントに関連する映画一覧を返します\n\n【リクエスト】\n{\n  talent_ids: []int\n  cursor: string,nullable,取得した最後のtalent_id\n  limit: int,取得したいtalent数\n}\n\n【レスポンス】\n200: {\n  movies: [{\n    id: string\n    name: string\n    image_url: string\n    description: string\n  }]\n}\n401: {\n  error_code: string\n}
+                }
+            }
+        }
+    }
+}
+"sample-service/repository/user-service/external-api/映画取得API/1_フォローしてるタレントID一覧を取得" --> "sample-service/repository/user-service/external-api/映画取得API/2_タレントに関連する映画一覧を取得"
+"sample-service/repository/user-service/external-api/映画取得API/1_フォローしてるタレントID一覧を取得" ..|> "sample-service/infra/CloudSQL/user-service/follows"
+"sample-service/repository/user-service/external-api/映画取得API/2_タレントに関連する映画一覧を取得" --> "sample-service/repository/user-service/external-api/映画取得API/3_レスポンス"
+"sample-service/repository/user-service/external-api/映画取得API/2_タレントに関連する映画一覧を取得" ..|> "sample-service/repository/movie-service/internal-api/映画取得API"
+"sample-service/repository/movie-service/internal-api/映画取得API" ..|> "sample-service/infra/CloudSQL/movie-service/movies"
+"sample-service/repository/movie-service/internal-api/映画取得API" ..|> "sample-service/infra/CloudSQL/movie-service/movie_talents"
+@enduml

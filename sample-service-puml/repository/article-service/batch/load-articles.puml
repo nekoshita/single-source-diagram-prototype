@@ -1,0 +1,42 @@
+@startuml
+hide circle
+rectangle "sample-service" as sample-service {
+    rectangle "infra" as sample-service/infra {
+        rectangle "BigQuery" as sample-service/infra/BigQuery {
+            rectangle "article" as sample-service/infra/BigQuery/article {
+                class "articles" as sample-service/infra/BigQuery/article/articles {
+                    PARTITIONEDテーブル\n【スキーマ】\nid: string REQUIRED\nname: string REQUIRED\nimage_url: string REQUIRED\ndescription: string REQUIRED 
+                }
+                class "talent_relation_scores" as sample-service/infra/BigQuery/article/talent_relation_scores {
+                    各タレントとの関連度のスコアを保持するテーブル\nPARTITIONEDテーブル\n\n【スキーマ】\narticle/id: string REQUIRED\ntalent_id: string REQUIRED\nscore: float REQUIRED
+                }
+            }
+        }
+        rectangle "CloudSQL" as sample-service/infra/CloudSQL {
+            rectangle "article-service" as sample-service/infra/CloudSQL/article-service {
+                class "articles" as sample-service/infra/CloudSQL/article-service/articles {
+                    【スキーマ】\nid: string PRIMARY_KEY\nname: string NOT_NULL\nimage_url: string NOT_NULL\ndescription: string NOT_NULL 
+                }
+                class "article_talents" as sample-service/infra/CloudSQL/article-service/article_talents {
+                    【スキーマ】\narticle/id: string PRIMARY_KEY\ntalent_id: string PRIMARY_KEY
+                }
+            }
+        }
+    }
+    rectangle "repository" as sample-service/repository {
+        rectangle "article-service" as sample-service/repository/article-service {
+            rectangle "batch" as sample-service/repository/article-service/batch {
+                rectangle "load-articles" as sample-service/repository/article-service/batch/load-articles {
+                    circle "1_関連度が閾値を超える記事を取得" as sample-service/repository/article-service/batch/load-articles/1_関連度が閾値を超える記事を取得
+                    circle "2_記事を保存する" as sample-service/repository/article-service/batch/load-articles/2_記事を保存する
+                }
+            }
+        }
+    }
+}
+"sample-service/repository/article-service/batch/load-articles/1_関連度が閾値を超える記事を取得" --> "sample-service/repository/article-service/batch/load-articles/2_記事を保存する"
+"sample-service/repository/article-service/batch/load-articles/1_関連度が閾値を超える記事を取得" ..|> "sample-service/infra/BigQuery/article/articles"
+"sample-service/repository/article-service/batch/load-articles/1_関連度が閾値を超える記事を取得" ..|> "sample-service/infra/BigQuery/article/talent_relation_scores"
+"sample-service/repository/article-service/batch/load-articles/2_記事を保存する" --|> "sample-service/infra/CloudSQL/article-service/articles"
+"sample-service/repository/article-service/batch/load-articles/2_記事を保存する" --|> "sample-service/infra/CloudSQL/article-service/article_talents"
+@enduml

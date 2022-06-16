@@ -1,0 +1,25 @@
+content: |-
+  GET /api/v1/talents
+
+  【リクエスト】
+  {
+    name: string,nullable,値がある場合は部分一致したタレントのみを返す
+    cursor: string,nullable,取得した最後のtalent_id
+    limit: int,取得したいtalent数
+  }
+
+  【レスポンス】
+  200: {
+    talents: [{
+      id: string
+      name: string
+      image_url: string
+      description: string
+    }]
+  }
+  401: {
+    error_code: string
+  }
+links:
+- id: sample-service/repository/talent-service/internal-api/タレント取得API
+  type: get

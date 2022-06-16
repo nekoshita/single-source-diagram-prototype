@@ -1,0 +1,52 @@
+@startuml
+hide circle
+rectangle "sample-service" as sample-service {
+    rectangle "infra" as sample-service/infra {
+        rectangle "CloudSQL" as sample-service/infra/CloudSQL {
+            rectangle "article-service" as sample-service/infra/CloudSQL/article-service {
+                class "articles" as sample-service/infra/CloudSQL/article-service/articles {
+                    【スキーマ】\nid: string PRIMARY_KEY\nname: string NOT_NULL\nimage_url: string NOT_NULL\ndescription: string NOT_NULL 
+                }
+                class "article_talents" as sample-service/infra/CloudSQL/article-service/article_talents {
+                    【スキーマ】\narticle/id: string PRIMARY_KEY\ntalent_id: string PRIMARY_KEY
+                }
+            }
+            rectangle "tv-show-service" as sample-service/infra/CloudSQL/tv-show-service {
+                class "tv_show_talents" as sample-service/infra/CloudSQL/tv-show-service/tv_show_talents {
+                    【スキーマ】\ntv_show_id: string PRIMARY_KEY\ntalent_id: string PRIMARY_KEY
+                }
+                class "tv_shows" as sample-service/infra/CloudSQL/tv-show-service/tv_shows {
+                    【スキーマ】\nid: string PRIMARY_KEY\nname: string NOT_NULL\nimage_url: string NOT_NULL\ndescription: string NOT_NULL \nstart_at: timestamp NOT_NULL \nend_at: timestamp NOT_NULL \ntv_region: string NOT_NULL 
+                }
+            }
+        }
+    }
+    rectangle "repository" as sample-service/repository {
+        rectangle "workflows" as sample-service/repository/workflows {
+            rectangle "purge-past-data" as sample-service/repository/workflows/purge-past-data {
+                note "schedule: 0 0,12 * * *\n過去の記事とテレビ番組を削除します\n（映画は削除しません）" as sample_service_repository_workflows_purge_past_data_note
+                circle "end" as sample-service/repository/workflows/purge-past-data/end
+                rectangle "purge-past-articles" as sample-service/repository/workflows/purge-past-data/purge-past-articles {
+                    rectangle "ref(sample-service/repository/article-service/batch/purge-past-articles)" as sample-service/repository/workflows/purge-past-data/purge-past-articles/sample-service/repository/article-service/batch/purge-past-articles {
+                        circle "1_過去データを削除" as sample-service/repository/workflows/purge-past-data/purge-past-articles/sample-service/repository/article-service/batch/purge-past-articles/1_過去データを削除
+                    }
+                }
+                rectangle "purge-past-tv-shows" as sample-service/repository/workflows/purge-past-data/purge-past-tv-shows {
+                    rectangle "ref(sample-service/repository/tv-show-service/batch/purge-past-tv-shows)" as sample-service/repository/workflows/purge-past-data/purge-past-tv-shows/sample-service/repository/tv-show-service/batch/purge-past-tv-shows {
+                        circle "1_過去データを削除" as sample-service/repository/workflows/purge-past-data/purge-past-tv-shows/sample-service/repository/tv-show-service/batch/purge-past-tv-shows/1_過去データを削除
+                    }
+                }
+                circle "start" as sample-service/repository/workflows/purge-past-data/start
+            }
+        }
+    }
+}
+"sample-service/repository/workflows/purge-past-data/purge-past-articles/sample-service/repository/article-service/batch/purge-past-articles/1_過去データを削除" --|> "sample-service/infra/CloudSQL/article-service/articles"
+"sample-service/repository/workflows/purge-past-data/purge-past-articles/sample-service/repository/article-service/batch/purge-past-articles/1_過去データを削除" --|> "sample-service/infra/CloudSQL/article-service/article_talents"
+"sample-service/repository/workflows/purge-past-data/purge-past-articles" --> "sample-service/repository/workflows/purge-past-data/end"
+"sample-service/repository/workflows/purge-past-data/purge-past-tv-shows/sample-service/repository/tv-show-service/batch/purge-past-tv-shows/1_過去データを削除" --|> "sample-service/infra/CloudSQL/tv-show-service/tv_shows"
+"sample-service/repository/workflows/purge-past-data/purge-past-tv-shows/sample-service/repository/tv-show-service/batch/purge-past-tv-shows/1_過去データを削除" --|> "sample-service/infra/CloudSQL/tv-show-service/tv_show_talents"
+"sample-service/repository/workflows/purge-past-data/purge-past-tv-shows" --> "sample-service/repository/workflows/purge-past-data/end"
+"sample-service/repository/workflows/purge-past-data/start" --> "sample-service/repository/workflows/purge-past-data/purge-past-articles"
+"sample-service/repository/workflows/purge-past-data/start" --> "sample-service/repository/workflows/purge-past-data/purge-past-tv-shows"
+@enduml

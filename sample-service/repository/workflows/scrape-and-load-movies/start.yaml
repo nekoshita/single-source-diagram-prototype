@@ -1,0 +1,5 @@
+links:
+- id: sample-service/repository/workflows/scrape-and-load-movies/scrape-movies-media-a
+  type: flow
+- id: sample-service/repository/workflows/scrape-and-load-movies/scrape-movies-media-b
+  type: flow

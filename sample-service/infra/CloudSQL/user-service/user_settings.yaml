@@ -1,0 +1,4 @@
+content: |-
+  【スキーマ】
+  user_id: string PRIMARY_KEY
+  tv_show_region: string NOT_NULL

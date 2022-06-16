@@ -1,0 +1,4 @@
+content: |-
+  【スキーマ】
+  user_id: string PRIMARY_KEY
+  talent_id: string PRIMARY_KEY

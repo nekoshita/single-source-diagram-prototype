@@ -1,0 +1,3 @@
+links:
+- id: sample-service/infra/BigQuery/article/articles
+  type: post

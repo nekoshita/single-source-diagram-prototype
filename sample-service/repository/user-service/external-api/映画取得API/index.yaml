@@ -1,0 +1,22 @@
+content: |-
+  GET /api/v1/movies
+  フォローしてるタレントに関連する映画一覧を返します
+
+  【リクエスト】
+  {
+    cursor: string,nullable,取得した最後のtalent_id
+    limit: int,取得したいtalent数
+  }
+
+  【レスポンス】
+  200: {
+    movies: [{
+      id: string
+      name: string
+      image_url: string
+      description: string
+    }]
+  }
+  401: {
+    error_code: string
+  }
